@@ -1,0 +1,13 @@
+{
+	"type":"createplus:helmet_crafting",
+	"pattern":
+	[
+		"HG"
+	],
+	"key":
+	{
+		"H": {"item": "minecraft:diamond_helmet"},
+		"G": {"item": "create:goggles"}
+	},
+	"result":{"item":"createplus:goggle_diamond_helmet"}
+}

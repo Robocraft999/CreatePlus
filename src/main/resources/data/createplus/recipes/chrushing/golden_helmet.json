@@ -1,0 +1,17 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "createplus:goggle_golden_helmet"
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:golden_helmet"
+    },
+    {
+      "item": "create:goggles"
+    }
+  ],
+  "processingTime": 150
+}
