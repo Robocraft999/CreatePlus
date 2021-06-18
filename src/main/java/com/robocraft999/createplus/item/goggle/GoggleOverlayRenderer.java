@@ -22,9 +22,9 @@ import com.simibubi.create.foundation.utility.Lang;
 import com.simibubi.create.foundation.utility.outliner.Outline;
 import com.simibubi.create.foundation.utility.outliner.Outliner.OutlineEntry;
 
-import mekanism.common.content.gear.Modules;
+/*import mekanism.common.content.gear.Modules;
 import mekanism.common.item.gear.ItemMekaSuitArmor;
-import mekanism.common.registries.MekanismItems;
+import mekanism.common.registries.MekanismItems;*/
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -109,7 +109,7 @@ public class GoggleOverlayRenderer {
 			
 		
 		}
-			
+		/*	
 		ModLoadedCondition mekloaded = new ModLoadedCondition("mekanism");
 		if(mekloaded.test()) {
 			if(headSlot.getItem() == MekanismItems.MEKASUIT_HELMET.asItem()) {
@@ -120,7 +120,7 @@ public class GoggleOverlayRenderer {
 					}
 				}
 			}
-		}
+		}*/
 
 		boolean hasGoggleInformation = te instanceof IHaveGoggleInformation;
 		boolean hasHoveringInformation = te instanceof IHaveHoveringInformation;
