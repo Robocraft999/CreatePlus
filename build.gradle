@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = "1.16.4_v0.3.2"
+version = "1.16.4_v0.3.2.1"
 group = 'com.robocraft999.createplus' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'createplus'
 
@@ -101,7 +101,7 @@ dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.16.4-35.1.20'
+    minecraft 'net.minecraftforge:forge:1.16.5-36.1.32'
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
@@ -111,7 +111,8 @@ dependencies {
     // compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
     // compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
     ////implementation fg.deobf("com:simibubi:create-mc1.16.3_v0.3e")
-    compile fg.deobf("curse.maven:create-328085:3167531")
+    //compile fg.deobf("curse.maven:create-328085:3167531")//0.3e
+    compile fg.deobf("curse.maven:create-328085:3384222")//0.3.2a
 
     // The 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
     // provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
