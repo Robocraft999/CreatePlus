@@ -55,7 +55,7 @@ import top.theillusivec4.curios.api.CuriosApi;
 
 
 @EventBusSubscriber(value = Dist.CLIENT)
-public class GoggleOverlayRenderer {
+public class GoggleOverlayRendererAlt {
 
 	private static final Map<Object, OutlineEntry> outlines = CreateClient.outliner.getOutlines();
 
