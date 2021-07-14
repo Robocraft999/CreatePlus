@@ -25,6 +25,7 @@ import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -32,6 +33,7 @@ import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.EventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -55,7 +57,11 @@ public class CreatePlus {
 		
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientRegistries);
+		
+		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::registerItemColors);
+		});
+		
 		FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(IRecipeSerializer.class, RecipeTypeList::register);
 		
 		MinecraftForge.EVENT_BUS.register(this);
@@ -70,7 +76,7 @@ public class CreatePlus {
 		logger.info("Create Plus Client Setup");
 	}
 	
-	public void registerItemColors(ColorHandlerEvent.Item event){
+	private void registerItemColors(final ColorHandlerEvent.Item event){
 	    event.getItemColors().register((stack, color) -> {
 	         return color > 0 ? -1 : ((IDyeableArmorItem)stack.getItem()).getColor(stack);
 	      }, ItemList.goggle_leather_helmet);
@@ -97,7 +103,7 @@ public class CreatePlus {
 					ItemList.goggle_iron_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_IRON, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("goggle_iron_helmet")),
 					ItemList.goggle_leather_helmet = new DyableGoggleArmor(ArmorMaterialList.GOGGLE_LEATHER, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("goggle_leather_helmet")),
 					ItemList.goggle_turtle_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_TURTLE, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("goggle_turtle_helmet")),
-					ItemList.goggle_netherite_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_NETHERITE, new Item.Properties().group(ItemGroup.COMBAT).isImmuneToFire()).setRegistryName(location("goggle_netherite_helmet"))
+					ItemList.goggle_netherite_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_NETHERITE, new Item.Properties().group(ItemGroup.COMBAT).fireproof()).setRegistryName(location("goggle_netherite_helmet"))
 			);
 			logger.info("Items registered");
 		}
@@ -127,7 +133,7 @@ public class CreatePlus {
 	    @SubscribeEvent
 	    public static void stitchTextures(TextureStitchEvent.Pre evt) {
 
-	      if (evt.getMap().getTextureLocation() == PlayerContainer.LOCATION_BLOCKS_TEXTURE) {
+	      if (evt.getMap().getId() == PlayerContainer.BLOCK_ATLAS_TEXTURE) {
 
 	        evt.addSprite(new ResourceLocation(MODID, "item/goggle_slot_icon"));
 	        logger.info("stichtexture_cp");
