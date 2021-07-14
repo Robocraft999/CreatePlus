@@ -22,7 +22,7 @@ libs
 # other
 eclipse
 run
-GoggleOverlayRendererAlt
+*Alt.java
 backup
 
 # Files from Forge MDK
