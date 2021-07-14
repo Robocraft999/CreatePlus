@@ -29,6 +29,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.IRenderTypeBuffer.Impl;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
@@ -55,15 +58,12 @@ import top.theillusivec4.curios.api.CuriosApi;
 
 
 @EventBusSubscriber(value = Dist.CLIENT)
-public class GoggleOverlayRenderer {
+public class GoggleOverlayRendererAlt {
 
 	private static final Map<Object, OutlineEntry> outlines = CreateClient.OUTLINER.getOutlines();
 
-	@SubscribeEvent
-	public static void lookingAtBlocksThroughGogglesShowsTooltip(RenderGameOverlayEvent.Post event) {
-		MatrixStack ms = event.getMatrixStack();
-		if (event.getType() != ElementType.TEXT)
-			return;
+	public static void renderOverlay(MatrixStack ms, IRenderTypeBuffer buffer, int light, int overlay,
+			float partialTicks) {
 
 		RayTraceResult objectMouseOver = Minecraft.getInstance().objectMouseOver;
 		if (!(objectMouseOver instanceof BlockRayTraceResult))
@@ -181,7 +181,7 @@ public class GoggleOverlayRenderer {
 			if (!tooltip.isEmpty())
 				tooltip.add(StringTextComponent.EMPTY);
 
-			tooltip.add(IHaveGoggleInformation.componentSpacing.copyRaw()
+			tooltip.add(IHaveGoggleInformation.componentSpacing.copy()
 				.append(Lang.translate("gui.goggles.pole_length"))
 				.append(new StringTextComponent(" " + poles)));
 		}
@@ -191,9 +191,9 @@ public class GoggleOverlayRenderer {
 
 		ms.push();
 		Screen tooltipScreen = new TooltipScreen(null);
-		tooltipScreen.init(mc, mc.getMainWindow()
+		tooltipScreen.init(mc, mc.getWindow()
 			.getScaledWidth(),
-			mc.getMainWindow()
+			mc.getWindow()
 				.getScaledHeight());
 		int posX = tooltipScreen.width / 2 + AllConfigs.CLIENT.overlayOffsetX.get();
 		int posY = tooltipScreen.height / 2 + AllConfigs.CLIENT.overlayOffsetY.get();
@@ -202,7 +202,7 @@ public class GoggleOverlayRenderer {
 		////tooltipScreen.renderTooltip(ms, tooltip, posX, posY);
 		//tooltipScreen.renderTooltip(ms, tooltip, posX, posY);
 		//System.out.println(tooltip);
-		tooltipScreen.func_243308_b(ms, tooltip, posX, posY);
+		tooltipScreen.renderTooltip(ms, tooltip, posX, posY);
 		//tooltipScreen.renderWrappedToolTip(ms, tooltip, posX, posY, Minecraft.getInstance().fontRenderer);
 		
 		ItemStack item = AllItems.GOGGLES.asStack();
@@ -224,13 +224,10 @@ public class GoggleOverlayRenderer {
 		@Override
 		public void init(Minecraft mc, int width, int height) {
 			//this.client = mc;
-			this.minecraft = mc;
 			this.itemRenderer = mc.getItemRenderer();
 			//this.textRenderer = mc.fontRenderer;
-			this.font = mc.fontRenderer;
 			this.width = width;
 			this.height = height;
-			
 		}
 	}
 

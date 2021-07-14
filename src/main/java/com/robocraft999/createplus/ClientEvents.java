@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.robocraft999.createplus.item.goggle.GoggleOverlayRendererAlt;
 import com.robocraft999.createplus.item.goggle.GoggleOverlayRenderer;
 import com.robocraft999.createplus.lists.ItemList;
 import com.simibubi.create.Create;
