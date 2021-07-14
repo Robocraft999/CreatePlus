@@ -103,7 +103,7 @@ public class CreatePlus {
 					ItemList.goggle_iron_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_IRON, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("goggle_iron_helmet")),
 					ItemList.goggle_leather_helmet = new DyableGoggleArmor(ArmorMaterialList.GOGGLE_LEATHER, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("goggle_leather_helmet")),
 					ItemList.goggle_turtle_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_TURTLE, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("goggle_turtle_helmet")),
-					ItemList.goggle_netherite_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_NETHERITE, new Item.Properties().group(ItemGroup.COMBAT).isImmuneToFire()).setRegistryName(location("goggle_netherite_helmet"))
+					ItemList.goggle_netherite_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_NETHERITE, new Item.Properties().group(ItemGroup.COMBAT).fireproof()).setRegistryName(location("goggle_netherite_helmet"))
 			);
 			logger.info("Items registered");
 		}
@@ -133,7 +133,7 @@ public class CreatePlus {
 	    @SubscribeEvent
 	    public static void stitchTextures(TextureStitchEvent.Pre evt) {
 
-	      if (evt.getMap().getTextureLocation() == PlayerContainer.LOCATION_BLOCKS_TEXTURE) {
+	      if (evt.getMap().getId() == PlayerContainer.BLOCK_ATLAS_TEXTURE) {
 
 	        evt.addSprite(new ResourceLocation(MODID, "item/goggle_slot_icon"));
 	        logger.info("stichtexture_cp");
