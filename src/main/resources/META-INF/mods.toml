@@ -35,7 +35,7 @@ description='''
 [[dependencies.createplus]]
     modId="create"
     mandatory=true
-    versionRange="[mc1.16.3+4_v0.3e,)"
+    versionRange="[v0.3.2a,)"
     ordering="NONE"
     side="BOTH"
    
