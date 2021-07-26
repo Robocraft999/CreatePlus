@@ -68,42 +68,7 @@ public class GoggleOverlayRenderer {
 		ItemStack headSlot = mc.player.getItemStackFromSlot(EquipmentSlotType.HEAD);
 		TileEntity te = world.getTileEntity(pos);
 
-		boolean wearingGoggles = 
-				   ItemList.goggle_chainmail_helmet == headSlot.getItem()
-				|| ItemList.goggle_diamond_helmet == headSlot.getItem()
-				|| ItemList.goggle_golden_helmet == headSlot.getItem()
-				|| ItemList.goggle_iron_helmet == headSlot.getItem()
-				|| ItemList.goggle_leather_helmet == headSlot.getItem()
-				|| ItemList.goggle_turtle_helmet == headSlot.getItem()
-				|| ItemList.goggle_netherite_helmet == headSlot.getItem();
-		
-		//if(AllItems.GOGGLES.isIn(headSlot))wearingGoggles = true;
-		
-		ModLoadedCondition curiosloaded = new ModLoadedCondition("curios");
-		if(curiosloaded.test()) {
-			LazyOptional<IItemHandlerModifiable> test = CuriosApi.getCuriosHelper().getEquippedCurios(mc.player);
-			IItemHandlerModifiable test2 = test.orElse(null);
-			if(test2 != null) {
-				for(int i = 0; i < test2.getSlots();i++) {
-					ItemStack curiosSlot = test2.getStackInSlot(i);
-					if(curiosSlot.getItem() == AllItems.GOGGLES.get())wearingGoggles = true;
-				}
-			}
-			
-		
-		}
-		/*	
-		ModLoadedCondition mekloaded = new ModLoadedCondition("mekanism");
-		if(mekloaded.test()) {
-			if(headSlot.getItem() == MekanismItems.MEKASUIT_HELMET.asItem()) {
-				ItemMekaSuitArmor helmet = (ItemMekaSuitArmor)headSlot.getItem();
-				if(helmet.hasModule(headSlot, Modules.VISION_ENHANCEMENT_UNIT)) {//TODO add own Module
-					if(helmet.isModuleEnabled(headSlot, Modules.VISION_ENHANCEMENT_UNIT)) {//TODO add own Module
-						wearingGoggles = true;
-					}
-				}
-			}
-		}*/
+		boolean wearingGoggles = ItemList.isGoggleHelmet(headSlot);
 
 		boolean hasGoggleInformation = te instanceof IHaveGoggleInformation;
 		boolean hasHoveringInformation = te instanceof IHaveHoveringInformation;

@@ -5,6 +5,7 @@ import javax.annotation.Nonnull;
 import com.robocraft999.createplus.lists.ArmorMaterialList;
 
 import net.minecraft.block.DispenserBlock;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -41,6 +42,13 @@ public class GoggleArmor extends ArmorItem{
 		} else {
 			return new ActionResult<>(ActionResultType.FAIL, itemstack);
 		}
+	}
+	
+	public boolean isWornBy(Entity entity) {
+		if (!(entity instanceof LivingEntity))
+			return false;
+		LivingEntity livingEntity = (LivingEntity) entity;
+		return livingEntity.getItemStackFromSlot(slot).getItem() == this;
 	}
 	
 	

@@ -3,7 +3,7 @@ package com.robocraft999.createplus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
+import com.robocraft999.createplus.item.goggle.DivingGoggleArmor;
 import com.robocraft999.createplus.item.goggle.DyableGoggleArmor;
 import com.robocraft999.createplus.item.goggle.GoggleArmor;
 import com.robocraft999.createplus.lists.ArmorMaterialList;
@@ -11,17 +11,11 @@ import com.robocraft999.createplus.lists.ItemList;
 import com.robocraft999.createplus.lists.RecipeTypeList;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScreenManager;
-import net.minecraft.client.renderer.color.IItemColor;
-import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.item.IDyeableArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -43,7 +37,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import top.theillusivec4.curios.api.SlotTypeMessage;
-import top.theillusivec4.curios.api.SlotTypePreset;
 
 @Mod("createplus")
 public class CreatePlus {
@@ -90,6 +83,9 @@ public class CreatePlus {
 		public static void enqueueIMC(final InterModEnqueueEvent event) {
 			ModLoadedCondition curios_loaded = new ModLoadedCondition("curios");
 			if(curios_loaded.test())
+				InterModComms.sendTo(MODID, "curios", SlotTypeMessage.REGISTER_TYPE,
+						() -> new SlotTypeMessage.Builder("createplus.backtank_slot").size(1).icon(new ResourceLocation(MODID, "item/goggle_slot_icon")).build());
+				
 				InterModComms.sendTo(MODID, "curios", SlotTypeMessage.REGISTER_TYPE, 
 				() -> new SlotTypeMessage.Builder("createplus.goggle_slot").size(1).icon(new ResourceLocation(MODID, "item/goggle_slot_icon")).build());
 		}
@@ -103,8 +99,10 @@ public class CreatePlus {
 					ItemList.goggle_iron_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_IRON, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("goggle_iron_helmet")),
 					ItemList.goggle_leather_helmet = new DyableGoggleArmor(ArmorMaterialList.GOGGLE_LEATHER, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("goggle_leather_helmet")),
 					ItemList.goggle_turtle_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_TURTLE, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("goggle_turtle_helmet")),
-					ItemList.goggle_netherite_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_NETHERITE, new Item.Properties().group(ItemGroup.COMBAT).fireproof()).setRegistryName(location("goggle_netherite_helmet"))
+					ItemList.goggle_netherite_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_NETHERITE, new Item.Properties().group(ItemGroup.COMBAT).fireproof()).setRegistryName(location("goggle_netherite_helmet")),
+					ItemList.goggle_diving_helmet = new DivingGoggleArmor(ArmorMaterialList.GOGGLE_DIVING, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("goggle_diving_helmet"))
 			);
+			ItemList.addGogglesToList();
 			logger.info("Items registered");
 		}
 		
@@ -136,7 +134,6 @@ public class CreatePlus {
 	      if (evt.getMap().getId() == PlayerContainer.BLOCK_ATLAS_TEXTURE) {
 
 	        evt.addSprite(new ResourceLocation(MODID, "item/goggle_slot_icon"));
-	        logger.info("stichtexture_cp");
 	      }
 	    }
 	}
