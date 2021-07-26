@@ -10,6 +10,8 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 
+import com.simibubi.create.AllItems;
+
 public enum ArmorMaterialList implements IArmorMaterial{
 
 	
@@ -19,7 +21,8 @@ public enum ArmorMaterialList implements IArmorMaterial{
 	GOGGLE_IRON("goggle_iron", 15, new int[]{2, 5, 6, 2}, 9, Items.IRON_INGOT,"item.armor.equip_iron", 0.0F, 0.0F),
 	GOGGLE_LEATHER("goggle_leather", 5, new int[]{1, 2, 3, 1}, 15, Items.LEATHER,"item.armor.equip_leather", 0.0F, 0.0F),
 	GOGGLE_TURTLE("goggle_turtle", 25, new int[]{2, 5, 6, 2}, 9, Items.SCUTE,"item.armor.equip_turtle", 0.0F, 0.0F),
-	GOGGLE_NETHERITE("goggle_netherite",37, new int[]{3, 6, 8, 3}, 15, Items.NETHERITE_INGOT, "item.armor.equip_netherite",3.0F, 0.1F);
+	GOGGLE_NETHERITE("goggle_netherite",37, new int[]{3, 6, 8, 3}, 15, Items.NETHERITE_INGOT, "item.armor.equip_netherite",3.0F, 0.1F),
+	GOGGLE_DIVING("goggle_diving", 7, new int[]{1, 3, 4, 2}, 25, AllItems.COPPER_INGOT.get(), "item.armor.equip_gold", 0.0F, 0.0F);
 	
 	private final int[] max_damage_array = new int[]{13,15,16,11};
 	private String name, equipSound;
