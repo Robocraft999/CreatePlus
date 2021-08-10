@@ -106,7 +106,7 @@ dependencies {
     //compile fg.deobf("curse.maven:mekanism-268560:3183270")
     compile fg.deobf("curse.maven:curios-309927:3186427")
     
-    runtimeOnly fg.deobf("curse.maven:flywheel-486392:3384004")
+    implementation fg.deobf("curse.maven:flywheel-486392:3384004")
 
 }
 
