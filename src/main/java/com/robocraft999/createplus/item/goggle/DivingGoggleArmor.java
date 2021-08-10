@@ -59,8 +59,8 @@ public class DivingGoggleArmor extends GoggleArmor {
 		if (world.isRemote) {
 			entity.getPersistentData()
 				.putInt("VisualBacktankAirCP", (int) BackTankUtil.getAir(backtank));
-			//System.out.println(entity.getPersistentData().getInt("VisualBacktankAir"));
-			ClientEvents.timeLeft = (int) BackTankUtil.getAir(backtank);
+			System.out.println(entity.getPersistentData().getInt("VisualBacktankAirCP"));
+			//ClientEvents.timeLeft = (int) BackTankUtil.getAir(backtank);
 		}
 		
 		if (!second)
