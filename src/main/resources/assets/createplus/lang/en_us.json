@@ -8,5 +8,6 @@
 	"item.createplus.goggle_netherite_helmet":"Netherite Goggle Helmet",
 	"item.createplus.goggle_diving_helmet":"Goggle Diving Helmet",
 	
-	"curios.identifier.createplus.goggle_slot":"Goggles"
+	"curios.identifier.createplus.goggle_slot":"Goggles",
+	"curios.identifier.createplus.backtank_slot":"Backtank"
 }
