@@ -30,7 +30,7 @@ public class DivingGoggleArmor extends GoggleArmor {
 		super(material, properties);
 	}
 	
-	@SubscribeEvent(priority = EventPriority.LOW)
+	//@SubscribeEvent(priority = EventPriority.LOW)
 	public static void breatheUnderwater(LivingUpdateEvent event) {
 		LivingEntity entity = event.getEntityLiving();
 		World world = entity.world;
