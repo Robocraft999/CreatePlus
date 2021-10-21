@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = "1.16.4_v0.3.2.1"
+version = "1.16.4_v0.3.2.2"
 group = 'com.robocraft999.createplus' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'createplus'
 
@@ -98,7 +98,8 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.1.32'
 
     //compile fg.deobf("curse.maven:create-328085:3167531")//0.3e
-    compile fg.deobf("curse.maven:create-328085:3384222")//0.3.2a
+    //compile fg.deobf("curse.maven:create-328085:3384222")//0.3.2a
+    //compile fg.deobf("curse.maven:create-328085:3419412")//0.3.2d
 
     ////implementation fg.deobf("com:pupnewfster:Mekanism-1.16.4-10.0.18.445")
     ////implementation fg.deobf("com:TheIllusiveC4:curios-1.16.4-4.0.3.5")

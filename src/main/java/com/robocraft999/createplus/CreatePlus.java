@@ -83,8 +83,8 @@ public class CreatePlus {
 		public static void enqueueIMC(final InterModEnqueueEvent event) {
 			ModLoadedCondition curios_loaded = new ModLoadedCondition("curios");
 			if(curios_loaded.test())
-				InterModComms.sendTo(MODID, "curios", SlotTypeMessage.REGISTER_TYPE,
-						() -> new SlotTypeMessage.Builder("createplus.backtank_slot").size(1).icon(new ResourceLocation(MODID, "item/goggle_slot_icon")).build());
+				/*InterModComms.sendTo(MODID, "curios", SlotTypeMessage.REGISTER_TYPE,
+						() -> new SlotTypeMessage.Builder("createplus.backtank_slot").size(1).icon(new ResourceLocation(MODID, "item/goggle_slot_icon")).build());*/
 				
 				InterModComms.sendTo(MODID, "curios", SlotTypeMessage.REGISTER_TYPE, 
 				() -> new SlotTypeMessage.Builder("createplus.goggle_slot").size(1).icon(new ResourceLocation(MODID, "item/goggle_slot_icon")).build());
