@@ -20,7 +20,7 @@ import com.simibubi.create.foundation.config.AllConfigs;
 import com.simibubi.create.foundation.config.CKinetics;
 import com.simibubi.create.foundation.gui.GuiGameElement;
 import com.simibubi.create.foundation.item.ItemDescription;
-import com.simibubi.create.foundation.utility.ColorHelper;
+import com.simibubi.create.foundation.utility.Color;
 import com.simibubi.create.foundation.utility.Lang;
 
 import net.minecraft.block.Block;
@@ -53,21 +53,18 @@ public class ClientEvents {
 	private static final String blockPrefix = "block." + Create.ID;
 	public  static int timeLeft = 0;
 	
-	@SubscribeEvent(priority=EventPriority.LOW)
+	@SubscribeEvent(/*priority=EventPriority.LOW*/)
 	public static void onRenderOverlay(RenderGameOverlayEvent.Post event) {
 		MatrixStack ms = event.getMatrixStack();
 		Impl buffers = Minecraft.getInstance()
-			.getBufferBuilders()
-			.getEntityVertexConsumers();
+			.renderBuffers()
+			.bufferSource();
 		int light = 0xF000F0;
-		int overlay = OverlayTexture.DEFAULT_UV;
+		int overlay = OverlayTexture.NO_OVERLAY;
 		float pt = event.getPartialTicks();
 
-		if (event.getType() == ElementType.AIR) {
-			//Minecraft.getInstance().player.getPersistentData().putInt("VisualBacktankAir",timeLeft);
-			renderRemainingAirOverlay(ms, buffers, light, overlay, pt);
-			//System.out.println(Minecraft.getInstance().player.getPersistentData().getInt("VisualBacktankAir"));
-		}
+		if (event.getType() == ElementType.AIR)
+			//CopperBacktankArmorLayer.renderRemainingAirOverlay(ms, buffers, light, overlay, pt);
 		if (event.getType() != ElementType.HOTBAR)
 			return;
 
@@ -81,32 +78,32 @@ public class ClientEvents {
 		if (player.isSpectator() || player.isCreative())
 			return;
 		if (!player.getPersistentData()
-			.contains("VisualBacktankAirCP"))
+			.contains("VisualBacktankAir"))
 			return;
-		if (!player.areEyesInFluid(FluidTags.WATER))
+		if (!player.isEyeInFluid(FluidTags.WATER))
 			return;
 
 		int timeLeft = player.getPersistentData()
-			.getInt("VisualBacktankAirCP");
+			.getInt("VisualBacktankAir");
 
-		ms.push();
+		ms.pushPose();
 
 		MainWindow window = Minecraft.getInstance()
 			.getWindow();
-		ms.translate(window.getScaledWidth() / 2 + 90, window.getScaledHeight() - 53, 0);
+		ms.translate(window.getGuiScaledWidth() / 2 + 90, window.getGuiScaledHeight() - 53, 0);
 
-		ITextComponent text = new StringTextComponent(StringUtils.ticksToElapsedTime(timeLeft * 20));
+		ITextComponent text = new StringTextComponent(StringUtils.formatTickDuration(timeLeft * 20));
 		GuiGameElement.of(AllItems.COPPER_BACKTANK.asStack())
 			.at(0, 0)
 			.render(ms);
 		int color = 0xFF_FFFFFF;
 		if (timeLeft < 60 && timeLeft % 2 == 0) {
-			color = ColorHelper.mixColors(0xFF_FF0000, color, Math.max(timeLeft / 60f, .25f));
+			color = Color.mixColors(0xFF_FF0000, color, Math.max(timeLeft / 60f, .25f));
 		}
-		Minecraft.getInstance().fontRenderer.drawWithShadow(ms, text, 16, 5, color);
-		buffers.draw();
+		Minecraft.getInstance().font.drawShadow(ms, text, 16, 5, color);
+		buffers.endBatch();
 
-		ms.pop();
+		ms.popPose();
 	}
 	
 	@SubscribeEvent(priority=EventPriority.LOW)
@@ -118,14 +115,14 @@ public class ClientEvents {
 		
 		ItemStack stack = event.getItemStack();
 		String translationKey = stack.getItem()
-			.getTranslationKey(stack);
+			.getDescriptionId(stack);
 		
 		if (!translationKey.startsWith(blockPrefix))
 			return;
 		
 		List<ITextComponent> itemTooltip = event.getToolTip();
 			
-		Block itemblock = Block.getBlockFromItem(stack.getItem());
+		Block itemblock = Block.byItem(stack.getItem());
 		if(itemblock == null || !(itemblock instanceof IRotate))return;
 			
 		boolean isEngine = itemblock instanceof EngineBlock;
@@ -139,38 +136,38 @@ public class ClientEvents {
 		boolean hasStressImpact = impacts.containsKey(id) && impacts.get(id)
 			.get() > 0 && StressImpact.isEnabled();
 		boolean hasStressCapacity = (isHandle || capacities.containsKey(id)) && StressImpact.isEnabled();
-		ItemStack headSlot = event.getPlayer().getItemStackFromSlot(EquipmentSlotType.HEAD);
+		ItemStack headSlot = event.getPlayer().getItemBySlot(EquipmentSlotType.HEAD);
 		boolean hasGlasses = ItemList.isGoggleHelmet(headSlot);
 		ITextComponent rpmUnit = Lang.translate("generic.unit.rpm");
 			
 		if(!hasGlasses)return;
 			
 		if(hasSpeedRequirement) {
-			int index = 1 + itemTooltip.indexOf(Lang.translate("tooltip.speedRequirement").formatted(GRAY));
+			int index = 1 + itemTooltip.indexOf(Lang.translate("tooltip.speedRequirement").withStyle(GRAY));
 			IFormattableTextComponent level = new StringTextComponent(ItemDescription.makeProgressBar(3, minimumRequiredSpeedLevel.ordinal()))
-					.formatted(minimumRequiredSpeedLevel.getTextColor());
+					.withStyle(minimumRequiredSpeedLevel.getTextColor());
 			level.append(String.valueOf(minimumRequiredSpeedLevel.getSpeedValue())).append(rpmUnit).append("+");
 			if(index > 0) {
 				itemTooltip.set(index, level);
 			}
 		}
 		if(hasStressImpact && !(!isEngine && ((IRotate) itemblock).hideStressImpact())) {
-			int index = 1 + itemTooltip.indexOf(Lang.translate("tooltip.stressImpact").formatted(GRAY));
+			int index = 1 + itemTooltip.indexOf(Lang.translate("tooltip.stressImpact").withStyle(GRAY));
 			double impact = impacts.get(id).get();
 			StressImpact impactId = impact >= config.highStressImpact.get() ? StressImpact.HIGH : (impact >= config.mediumStressImpact.get() ? StressImpact.MEDIUM : StressImpact.LOW);
 			IFormattableTextComponent level = new StringTextComponent(ItemDescription.makeProgressBar(3, impactId.ordinal()))
-					.formatted(impactId.getAbsoluteColor());
+					.withStyle(impactId.getAbsoluteColor());
 			level.append(impacts.get(id).get() + "x ").append(rpmUnit);
 			if(index > 0) {
 				itemTooltip.set(index, level);
 			}
 		}
 		if(hasStressCapacity) {
-			int index = 1 + itemTooltip.indexOf(Lang.translate("tooltip.capacityProvided").formatted(GRAY));
+			int index = 1 + itemTooltip.indexOf(Lang.translate("tooltip.capacityProvided").withStyle(GRAY));
 			double capacity = capacities.get(isHandle ? AllBlocks.HAND_CRANK.getId() : id).get();
 			StressImpact impactId = capacity >= config.highCapacity.get() ? StressImpact.LOW : (capacity >= config.mediumCapacity.get() ? StressImpact.MEDIUM : StressImpact.HIGH);
 			IFormattableTextComponent level = new StringTextComponent(ItemDescription.makeProgressBar(3, StressImpact.values().length - 2 - impactId.ordinal()))
-					.formatted(impactId.getAbsoluteColor());
+					.withStyle(impactId.getAbsoluteColor());
 			level.append(capacity + "x ").append(rpmUnit);
 			if(index > 0) {
 				itemTooltip.set(index, level);

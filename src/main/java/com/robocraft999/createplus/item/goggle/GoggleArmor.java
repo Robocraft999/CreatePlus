@@ -22,7 +22,7 @@ public class GoggleArmor extends ArmorItem{
 
 	public GoggleArmor(IArmorMaterial material, Properties properties) {
 		super(material, EquipmentSlotType.HEAD, properties);
-		DispenserBlock.registerDispenseBehavior(this, ArmorItem.DISPENSER_BEHAVIOR);
+		DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
 	}
 
 	@Override
@@ -32,11 +32,11 @@ public class GoggleArmor extends ArmorItem{
 	
 
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-		ItemStack itemstack = playerIn.getHeldItem(handIn);
-		EquipmentSlotType equipmentslottype = MobEntity.getSlotForItemStack(itemstack);
-		ItemStack itemstack1 = playerIn.getItemStackFromSlot(equipmentslottype);
+		ItemStack itemstack = playerIn.getItemInHand(handIn);
+		EquipmentSlotType equipmentslottype = MobEntity.getEquipmentSlotForItem(itemstack);
+		ItemStack itemstack1 = playerIn.getItemBySlot(equipmentslottype);
 		if (itemstack1.isEmpty()) {
-			playerIn.setItemStackToSlot(equipmentslottype, itemstack.copy());
+			playerIn.setItemSlot(equipmentslottype, itemstack.copy());
 			itemstack.setCount(0);
 			return new ActionResult<>(ActionResultType.SUCCESS, itemstack);
 		} else {
@@ -48,13 +48,13 @@ public class GoggleArmor extends ArmorItem{
 		if (!(entity instanceof LivingEntity))
 			return false;
 		LivingEntity livingEntity = (LivingEntity) entity;
-		return livingEntity.getItemStackFromSlot(slot).getItem() == this;
+		return livingEntity.getItemBySlot(slot).getItem() == this;
 	}
 	
 	
 	@Override
     public boolean makesPiglinsNeutral(@Nonnull ItemStack stack, @Nonnull LivingEntity wearer) {
-        if(getArmorMaterial() == ArmorMaterialList.GOGGLE_GOLD) {
+        if(getMaterial() == ArmorMaterialList.GOGGLE_GOLD) {
         	return true;
         }
         return false;

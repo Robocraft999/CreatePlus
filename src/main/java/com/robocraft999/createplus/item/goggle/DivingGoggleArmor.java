@@ -33,16 +33,18 @@ public class DivingGoggleArmor extends GoggleArmor {
 	//@SubscribeEvent(priority = EventPriority.LOW)
 	public static void breatheUnderwater(LivingUpdateEvent event) {
 		LivingEntity entity = event.getEntityLiving();
-		World world = entity.world;
+		World world = entity.level;
 		boolean second = world.getGameTime() % 20 == 0;
-		boolean drowning = entity.getAir() == 0;
+		boolean drowning = entity.getAirSupply() == 0;
 
-		if (world.isRemote)
+		if (world.isClientSide)
 			entity.getPersistentData()
-				.remove("VisualBacktankAirCP");
-		if (!(((GoggleArmor)ItemList.goggle_diving_helmet).isWornBy(entity)))
+				.remove("VisualBacktankAir");
+
+		if (!AllItems.DIVING_HELMET.get()
+			.isWornBy(entity))
 			return;
-		if (!entity.areEyesInFluid(FluidTags.WATER))
+		if (!entity.isEyeInFluid(FluidTags.WATER))
 			return;
 		if (entity instanceof PlayerEntity && ((PlayerEntity) entity).isCreative())
 			return;
@@ -54,20 +56,17 @@ public class DivingGoggleArmor extends GoggleArmor {
 			return;
 
 		if (drowning)
-			entity.setAir(10);
+			entity.setAirSupply(10);
 
-		if (world.isRemote) {
+		if (world.isClientSide)
 			entity.getPersistentData()
-				.putInt("VisualBacktankAirCP", (int) BackTankUtil.getAir(backtank));
-			System.out.println(entity.getPersistentData().getInt("VisualBacktankAirCP"));
-			//ClientEvents.timeLeft = (int) BackTankUtil.getAir(backtank);
-		}
-		
+				.putInt("VisualBacktankAir", (int) BackTankUtil.getAir(backtank));
+
 		if (!second)
 			return;
 
-		entity.setAir(Math.min(entity.getMaxAir(), entity.getAir() + 10));
-		entity.addPotionEffect(new EffectInstance(Effects.WATER_BREATHING, 30, 0, true, false, true));
+		entity.setAirSupply(Math.min(entity.getMaxAirSupply(), entity.getAirSupply() + 10));
+		entity.addEffect(new EffectInstance(Effects.WATER_BREATHING, 30, 0, true, false, true));
 		BackTankUtil.consumeAir(backtank, 1);
 	}
 	

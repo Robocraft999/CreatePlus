@@ -44,10 +44,10 @@ public class GHelmetCrafingRecipe implements ICraftingRecipe{
 	}
 
 	@Override
-	public ItemStack getCraftingResult(CraftingInventory inv) {
+	public ItemStack assemble(CraftingInventory inv) {
 		//System.out.println("getCraftingResult");
-		for (int slot = 0; slot < inv.getSizeInventory(); slot++) {
-			ItemStack helmet = inv.getStackInSlot(slot).copy();
+		for (int slot = 0; slot < inv.getContainerSize(); slot++) {
+			ItemStack helmet = inv.getItem(slot).copy();
 			
 			boolean chainmail = Items.CHAINMAIL_HELMET == helmet.getItem();
 			boolean diamond = Items.DIAMOND_HELMET == helmet.getItem();
@@ -77,8 +77,8 @@ public class GHelmetCrafingRecipe implements ICraftingRecipe{
 				
 				for(Entry<Enchantment, Integer> entry : map.entrySet()) {
 					Enchantment enchantment = entry.getKey();
-					if (!enchantment.isCurse() || EnchantmentHelper.getEnchantmentLevel(enchantment, goggleHelmet) == 0) {
-						goggleHelmet.addEnchantment(enchantment, entry.getValue());
+					if (!enchantment.isCurse() || EnchantmentHelper.getItemEnchantmentLevel(enchantment, goggleHelmet) == 0) {
+						goggleHelmet.enchant(enchantment, entry.getValue());
 						//System.out.println("added enchantment");
 					}
 				}
@@ -88,8 +88,8 @@ public class GHelmetCrafingRecipe implements ICraftingRecipe{
 	}
 
 	@Override
-	public ItemStack getRecipeOutput() {
-		ItemStack helmet = getRecipe().getRecipeOutput();
+	public ItemStack getResultItem() {
+		ItemStack helmet = getRecipe().getResultItem();
 		return helmet;
 	}
 
@@ -104,36 +104,39 @@ public class GHelmetCrafingRecipe implements ICraftingRecipe{
 	}
 	
 	@Override
-	public boolean canFit(int width, int height) {
-		return getRecipe().canFit(width, height);
+	public boolean canCraftInDimensions(int width, int height) {
+		return getRecipe().canCraftInDimensions(width, height);
 	}
 
 	public ShapedRecipe getRecipe() {
 		return recipe;
 	}
+	
+	
 	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<GHelmetCrafingRecipe> {
 
 		@Override
-		public GHelmetCrafingRecipe read(ResourceLocation recipeId, JsonObject json) {
-			ShapedRecipe recipe = IRecipeSerializer.CRAFTING_SHAPED.read(recipeId, json);
+		public GHelmetCrafingRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+			ShapedRecipe recipe = IRecipeSerializer.SHAPED_RECIPE.fromJson(recipeId, json);
 			
 			return new GHelmetCrafingRecipe(recipe);
 		}
 
 		@Override
-		public GHelmetCrafingRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
-			ShapedRecipe recipe = IRecipeSerializer.CRAFTING_SHAPED.read(recipeId, buffer);
+		public GHelmetCrafingRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
+			ShapedRecipe recipe = IRecipeSerializer.SHAPED_RECIPE.fromNetwork(recipeId, buffer);
 			
 			return new GHelmetCrafingRecipe(recipe);
 			
 		}
 
 		@Override
-		public void write(PacketBuffer buffer, GHelmetCrafingRecipe recipe) {
-			IRecipeSerializer.CRAFTING_SHAPED.write(buffer, recipe.getRecipe());
+		public void toNetwork(PacketBuffer buffer, GHelmetCrafingRecipe recipe) {
+			IRecipeSerializer.SHAPED_RECIPE.toNetwork(buffer, recipe.getRecipe());
 		}
 		
 	}
+	
 
 	
 

@@ -1,5 +1,7 @@
 package com.robocraft999.createplus;
 
+import java.util.function.Supplier;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,6 +11,7 @@ import com.robocraft999.createplus.item.goggle.GoggleArmor;
 import com.robocraft999.createplus.lists.ArmorMaterialList;
 import com.robocraft999.createplus.lists.ItemList;
 import com.robocraft999.createplus.lists.RecipeTypeList;
+import com.simibubi.create.content.contraptions.goggles.GoggleOverlayRenderer;
 
 import net.minecraft.block.Block;
 import net.minecraft.inventory.container.ContainerType;
@@ -93,16 +96,19 @@ public class CreatePlus {
 		@SubscribeEvent
 		public static void registerItems(final RegistryEvent.Register<Item> event) {
 			event.getRegistry().registerAll(
-					ItemList.goggle_chainmail_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_CHAIN, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("goggle_chainmail_helmet")),
-					ItemList.goggle_diamond_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_DIAMOND, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("goggle_diamond_helmet")),
-					ItemList.goggle_golden_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_GOLD, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("goggle_golden_helmet")),
-					ItemList.goggle_iron_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_IRON, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("goggle_iron_helmet")),
-					ItemList.goggle_leather_helmet = new DyableGoggleArmor(ArmorMaterialList.GOGGLE_LEATHER, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("goggle_leather_helmet")),
-					ItemList.goggle_turtle_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_TURTLE, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("goggle_turtle_helmet")),
-					ItemList.goggle_netherite_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_NETHERITE, new Item.Properties().group(ItemGroup.COMBAT).fireproof()).setRegistryName(location("goggle_netherite_helmet")),
-					ItemList.goggle_diving_helmet = new DivingGoggleArmor(ArmorMaterialList.GOGGLE_DIVING, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("goggle_diving_helmet"))
+					ItemList.goggle_chainmail_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_CHAIN, new Item.Properties().tab(ItemGroup.TAB_COMBAT)).setRegistryName(location("goggle_chainmail_helmet")),
+					ItemList.goggle_diamond_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_DIAMOND, new Item.Properties().tab(ItemGroup.TAB_COMBAT)).setRegistryName(location("goggle_diamond_helmet")),
+					ItemList.goggle_golden_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_GOLD, new Item.Properties().tab(ItemGroup.TAB_COMBAT)).setRegistryName(location("goggle_golden_helmet")),
+					ItemList.goggle_iron_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_IRON, new Item.Properties().tab(ItemGroup.TAB_COMBAT)).setRegistryName(location("goggle_iron_helmet")),
+					ItemList.goggle_leather_helmet = new DyableGoggleArmor(ArmorMaterialList.GOGGLE_LEATHER, new Item.Properties().tab(ItemGroup.TAB_COMBAT)).setRegistryName(location("goggle_leather_helmet")),
+					ItemList.goggle_turtle_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_TURTLE, new Item.Properties().tab(ItemGroup.TAB_COMBAT)).setRegistryName(location("goggle_turtle_helmet")),
+					ItemList.goggle_netherite_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_NETHERITE, new Item.Properties().tab(ItemGroup.TAB_COMBAT).fireResistant()).setRegistryName(location("goggle_netherite_helmet")),
+					ItemList.goggle_diving_helmet = new DivingGoggleArmor(ArmorMaterialList.GOGGLE_DIVING, new Item.Properties().tab(ItemGroup.TAB_COMBAT)).setRegistryName(location("goggle_diving_helmet"))
 			);
 			ItemList.addGogglesToList();
+			
+			GoggleOverlayRenderer.registerCustomGoggleCondition(com.robocraft999.createplus.item.goggle.GoggleOverlayRenderer.customGogglePredicate);
+			
 			logger.info("Items registered");
 		}
 		
@@ -131,7 +137,7 @@ public class CreatePlus {
 	    @SubscribeEvent
 	    public static void stitchTextures(TextureStitchEvent.Pre evt) {
 
-	      if (evt.getMap().getId() == PlayerContainer.BLOCK_ATLAS_TEXTURE) {
+	      if (evt.getMap().location() == PlayerContainer.BLOCK_ATLAS) {
 
 	        evt.addSprite(new ResourceLocation(MODID, "item/goggle_slot_icon"));
 	      }
