@@ -63,7 +63,8 @@ public class GoggleOverlayRenderer {
 		ItemStack headSlot = mc.player.getItemBySlot(EquipmentSlotType.HEAD);
 		boolean wearingGoggles = ItemList.isGoggleHelmet(headSlot);
 		
-		customGogglePredicate = () -> wearingGoggles;
+		//customGogglePredicate = () -> wearingGoggles;
+		customGogglePredicate = () -> ItemList.isGoggleHelmet(headSlot);
 		System.out.println("debug1 "+customGogglePredicate.get());
 	}
 	
