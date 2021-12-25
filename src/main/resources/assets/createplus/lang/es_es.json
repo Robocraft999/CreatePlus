@@ -1,0 +1,11 @@
+{
+	"item.createplus.goggle_chainmail_helmet":"Casco de cota de mallas con gafas",
+	"item.createplus.goggle_diamond_helmet":"Casco de diamantes con gafas",
+	"item.createplus.goggle_golden_helmet":"Casco de oro con gafas",
+	"item.createplus.goggle_iron_helmet":"Casco de hierro con gafas",
+	"item.createplus.goggle_leather_helmet":"Casco de cuero con gafas",
+	"item.createplus.goggle_turtle_helmet":"Casco de tortuga con gafas",
+	"item.createplus.goggle_netherite_helmet":"Casco de netherite con gafas",
+	
+	"curios.identifier.createplus.goggle_slot":"Gafas"
+}
