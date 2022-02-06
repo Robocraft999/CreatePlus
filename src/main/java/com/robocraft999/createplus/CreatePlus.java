@@ -10,27 +10,24 @@ import com.robocraft999.createplus.lists.ArmorMaterialList;
 import com.robocraft999.createplus.lists.ItemList;
 import com.robocraft999.createplus.lists.RecipeTypeList;
 
-import net.minecraft.block.Block;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.PlayerContainer;
-import net.minecraft.item.IDyeableArmorItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.item.DyeableLeatherItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.EventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -51,11 +48,9 @@ public class CreatePlus {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientRegistries);
 		
-		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::registerItemColors);
-		});
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () -> FMLJavaModLoadingContext.get().getModEventBus().addListener(this::registerItemColors));
 		
-		FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(IRecipeSerializer.class, RecipeTypeList::register);
+		FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(RecipeSerializer.class, RecipeTypeList::register);
 		
 		MinecraftForge.EVENT_BUS.register(this);
 	}
@@ -70,15 +65,14 @@ public class CreatePlus {
 	}
 	
 	private void registerItemColors(final ColorHandlerEvent.Item event){
-	    event.getItemColors().register((stack, color) -> {
-	         return color > 0 ? -1 : ((IDyeableArmorItem)stack.getItem()).getColor(stack);
-	      }, ItemList.goggle_leather_helmet);
+	    event.getItemColors().register((stack, color) -> color > 0 ? -1 : ((DyeableLeatherItem)stack.getItem()).getColor(stack), ItemList.goggle_leather_helmet);
 	}
 	
 	
 	@Mod.EventBusSubscriber(modid = MODID, bus=Mod.EventBusSubscriber.Bus.MOD)
 	public static class RegistryEvents {
-		
+
+		@SuppressWarnings("unused")
 		@SubscribeEvent
 		public static void enqueueIMC(final InterModEnqueueEvent event) {
 			ModLoadedCondition curios_loaded = new ModLoadedCondition("curios");
@@ -89,32 +83,35 @@ public class CreatePlus {
 				InterModComms.sendTo(MODID, "curios", SlotTypeMessage.REGISTER_TYPE, 
 				() -> new SlotTypeMessage.Builder("createplus.goggle_slot").size(1).icon(new ResourceLocation(MODID, "item/goggle_slot_icon")).build());
 		}
-		
+
+		@SuppressWarnings("unused")
 		@SubscribeEvent
 		public static void registerItems(final RegistryEvent.Register<Item> event) {
 			event.getRegistry().registerAll(
-					ItemList.goggle_chainmail_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_CHAIN, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("goggle_chainmail_helmet")),
-					ItemList.goggle_diamond_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_DIAMOND, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("goggle_diamond_helmet")),
-					ItemList.goggle_golden_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_GOLD, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("goggle_golden_helmet")),
-					ItemList.goggle_iron_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_IRON, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("goggle_iron_helmet")),
-					ItemList.goggle_leather_helmet = new DyableGoggleArmor(ArmorMaterialList.GOGGLE_LEATHER, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("goggle_leather_helmet")),
-					ItemList.goggle_turtle_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_TURTLE, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("goggle_turtle_helmet")),
-					ItemList.goggle_netherite_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_NETHERITE, new Item.Properties().group(ItemGroup.COMBAT).fireproof()).setRegistryName(location("goggle_netherite_helmet")),
-					ItemList.goggle_diving_helmet = new DivingGoggleArmor(ArmorMaterialList.GOGGLE_DIVING, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("goggle_diving_helmet"))
+					ItemList.goggle_chainmail_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_CHAIN, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)).setRegistryName(location("goggle_chainmail_helmet")),
+					ItemList.goggle_diamond_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_DIAMOND, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)).setRegistryName(location("goggle_diamond_helmet")),
+					ItemList.goggle_golden_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_GOLD, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)).setRegistryName(location("goggle_golden_helmet")),
+					ItemList.goggle_iron_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_IRON, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)).setRegistryName(location("goggle_iron_helmet")),
+					ItemList.goggle_leather_helmet = new DyableGoggleArmor(ArmorMaterialList.GOGGLE_LEATHER, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)).setRegistryName(location("goggle_leather_helmet")),
+					ItemList.goggle_turtle_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_TURTLE, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)).setRegistryName(location("goggle_turtle_helmet")),
+					ItemList.goggle_netherite_helmet = new GoggleArmor(ArmorMaterialList.GOGGLE_NETHERITE, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT).fireResistant()).setRegistryName(location("goggle_netherite_helmet")),
+					ItemList.goggle_diving_helmet = new DivingGoggleArmor(ArmorMaterialList.GOGGLE_DIVING, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)).setRegistryName(location("goggle_diving_helmet"))
 			);
 			ItemList.addGogglesToList();
 			logger.info("Items registered");
 		}
-		
+
+		@SuppressWarnings("unused")
 		@SubscribeEvent
 		public static void registerBlocks(final RegistryEvent.Register<Block> event) {
 			event.getRegistry().registerAll(
 					
 			);
 		}
-		
+
+		@SuppressWarnings("unused")
 		@SubscribeEvent
-		public static void registerContainer(final RegistryEvent.Register<ContainerType<?>> event) {
+		public static void registerContainer(final RegistryEvent.Register<MenuType<?>> event) {
 			event.getRegistry().registerAll(
 					
 			);
@@ -128,10 +125,11 @@ public class CreatePlus {
 	@Mod.EventBusSubscriber(modid = MODID, value = Dist.CLIENT, bus = Bus.MOD)
 	  public static class ClientProxy {
 
+		@SuppressWarnings("unused")
 	    @SubscribeEvent
 	    public static void stitchTextures(TextureStitchEvent.Pre evt) {
 
-	      if (evt.getMap().getId() == PlayerContainer.BLOCK_ATLAS_TEXTURE) {
+	      if (evt.getAtlas().location() == InventoryMenu.BLOCK_ATLAS) {
 
 	        evt.addSprite(new ResourceLocation(MODID, "item/goggle_slot_icon"));
 	      }
