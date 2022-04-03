@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import com.simibubi.create.AllItems;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -14,7 +14,7 @@ import top.theillusivec4.curios.api.CuriosApi;
 
 public class ItemList {
 	
-	public static ArrayList<Item> GOGGLES = new ArrayList<Item>();
+	public static ArrayList<Item> GOGGLES = new ArrayList<>();
 	
 	public static Item goggle_leather_helmet;
 	public static Item goggle_chainmail_helmet;
@@ -45,11 +45,9 @@ public class ItemList {
 		if(curiosloaded.test()) {
 			LazyOptional<IItemHandlerModifiable> test = CuriosApi.getCuriosHelper().getEquippedCurios(mc.player);
 			IItemHandlerModifiable test2 = test.orElse(null);
-			if(test2 != null) {
-				for(int i = 0; i < test2.getSlots();i++) {
-					ItemStack curiosSlot = test2.getStackInSlot(i);
-					if(curiosSlot.getItem() == AllItems.GOGGLES.get())wearingGoggles = true;
-				}
+			for(int i = 0; i < test2.getSlots();i++) {
+				ItemStack curiosSlot = test2.getStackInSlot(i);
+				if(curiosSlot.getItem() == AllItems.GOGGLES.get())wearingGoggles = true;
 			}
 		}
 		/*	

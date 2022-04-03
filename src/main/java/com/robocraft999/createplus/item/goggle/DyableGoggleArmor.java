@@ -1,19 +1,20 @@
 package com.robocraft999.createplus.item.goggle;
 
-import net.minecraft.item.IArmorMaterial;
-import net.minecraft.item.IDyeableArmorItem;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.event.ColorHandlerEvent;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.DyeableLeatherItem;
+import net.minecraft.world.item.ItemStack;
 
-public class DyableGoggleArmor extends GoggleArmor implements IDyeableArmorItem{
+import javax.annotation.Nonnull;
 
-	public DyableGoggleArmor(IArmorMaterial material, Properties properties) {
+public class DyableGoggleArmor extends GoggleArmor implements DyeableLeatherItem{
+
+	public DyableGoggleArmor(ArmorMaterial material, Properties properties) {
 		super(material, properties);
 	}
 	
 	@Override
-	public void setColor(ItemStack stack, int color) {
-		IDyeableArmorItem.super.setColor(stack, color);
+	public void setColor(@Nonnull ItemStack stack, int color) {
+		DyeableLeatherItem.super.setColor(stack, color);
 		System.out.println("color set");
 		System.out.println(getColor(stack));
 	}

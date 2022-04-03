@@ -36,6 +36,6 @@ description='''
     modId="create"
     mandatory=true
     versionRange="[v0.3.2a,)"
-    ordering="NONE"
+    ordering="AFTER"
     side="BOTH"
    
