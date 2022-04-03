@@ -16,6 +16,7 @@ import com.simibubi.create.foundation.config.AllConfigs;
 import com.simibubi.create.foundation.config.CKinetics;
 import com.simibubi.create.foundation.gui.element.GuiGameElement;
 import com.simibubi.create.foundation.item.ItemDescription;
+
 import com.simibubi.create.foundation.utility.Lang;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -51,7 +52,7 @@ public class ClientEvents {
 	private static final String blockPrefix = "block." + Create.ID;
 	public  static int timeLeft = 0;
 	
-	@SubscribeEvent(priority=EventPriority.LOW)
+	@SubscribeEvent(/*priority=EventPriority.LOW*/)
 	public static void onRenderOverlay(RenderGameOverlayEvent.Post event) {
 		PoseStack ms = event.getMatrixStack();
 		BufferSource buffers = Minecraft.getInstance().renderBuffers().bufferSource();
@@ -78,20 +79,22 @@ public class ClientEvents {
 		if (player.isSpectator() || player.isCreative())
 			return;
 		if (!player.getPersistentData()
-			.contains("VisualBacktankAirCP"))
+			.contains("VisualBacktankAir"))
 			return;
 		if (!player.isEyeInFluid(FluidTags.WATER))
 			return;
 
 		int timeLeft = player.getPersistentData()
-			.getInt("VisualBacktankAirCP");
+			.getInt("VisualBacktankAir");
 
 		ms.pushPose();
+
 
 		Window window = Minecraft.getInstance().getWindow();
 		ms.translate(window.getGuiScaledWidth() / 2 + 90, window.getGuiScaledHeight() - 53, 0);
 
 		Component text = new TextComponent(StringUtil.formatTickDuration(timeLeft * 20));
+
 		GuiGameElement.of(AllItems.COPPER_BACKTANK.asStack())
 			.at(0, 0)
 			.render(ms);
@@ -122,6 +125,7 @@ public class ClientEvents {
 		List<Component> itemTooltip = event.getToolTip();
 			
 		Block itemblock = Block.byItem(stack.getItem());
+
 		if(!(itemblock instanceof IRotate))return;
 			
 		boolean isEngine = itemblock instanceof EngineBlock;
@@ -135,6 +139,7 @@ public class ClientEvents {
 		boolean hasStressImpact = impacts.containsKey(id) && impacts.get(id)
 			.get() > 0 && StressImpact.isEnabled();
 		boolean hasStressCapacity = (isHandle || capacities.containsKey(id)) && StressImpact.isEnabled();
+
 		ItemStack headSlot = event.getPlayer().getItemBySlot(EquipmentSlot.HEAD);
 		boolean hasGlasses = ItemList.isGoggleHelmet(headSlot);
 		Component rpmUnit = Lang.translate("generic.unit.rpm");

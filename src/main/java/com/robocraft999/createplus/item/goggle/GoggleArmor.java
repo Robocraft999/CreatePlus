@@ -52,7 +52,7 @@ public class GoggleArmor extends ArmorItem{
 	
 	
 	@Override
-    public boolean makesPiglinsNeutral(@Nonnull ItemStack stack, @Nonnull LivingEntity wearer) {
+  public boolean makesPiglinsNeutral(@Nonnull ItemStack stack, @Nonnull LivingEntity wearer) {
 		return getMaterial() == ArmorMaterialList.GOGGLE_GOLD;
 	}
 }

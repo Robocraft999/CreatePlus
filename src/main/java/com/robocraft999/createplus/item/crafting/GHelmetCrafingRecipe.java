@@ -139,6 +139,7 @@ public class GHelmetCrafingRecipe implements CraftingRecipe{
 		}
 		
 	}
+	
 
 	
 

@@ -1,5 +1,7 @@
 package com.robocraft999.createplus;
 
+import java.util.function.Supplier;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,6 +11,7 @@ import com.robocraft999.createplus.item.goggle.GoggleArmor;
 import com.robocraft999.createplus.lists.ArmorMaterialList;
 import com.robocraft999.createplus.lists.ItemList;
 import com.robocraft999.createplus.lists.RecipeTypeList;
+import com.simibubi.create.content.contraptions.goggles.GoggleOverlayRenderer;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.inventory.MenuType;
@@ -98,6 +101,9 @@ public class CreatePlus {
 					ItemList.goggle_diving_helmet = new DivingGoggleArmor(ArmorMaterialList.GOGGLE_DIVING, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)).setRegistryName(location("goggle_diving_helmet"))
 			);
 			ItemList.addGogglesToList();
+			
+			GoggleOverlayRenderer.registerCustomGoggleCondition(com.robocraft999.createplus.item.goggle.GoggleOverlayRenderer.customGogglePredicate);
+			
 			logger.info("Items registered");
 		}
 
@@ -129,8 +135,8 @@ public class CreatePlus {
 	    @SubscribeEvent
 	    public static void stitchTextures(TextureStitchEvent.Pre evt) {
 
-	      if (evt.getAtlas().location() == InventoryMenu.BLOCK_ATLAS) {
 
+	      if (evt.getAtlas().location() == InventoryMenu.BLOCK_ATLAS) {
 	        evt.addSprite(new ResourceLocation(MODID, "item/goggle_slot_icon"));
 	      }
 	    }

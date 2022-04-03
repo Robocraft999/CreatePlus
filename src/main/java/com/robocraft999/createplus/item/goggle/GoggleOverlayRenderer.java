@@ -1,8 +1,10 @@
 package com.robocraft999.createplus.item.goggle;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.robocraft999.createplus.lists.ItemList;
@@ -14,8 +16,10 @@ import com.simibubi.create.content.contraptions.components.structureMovement.pis
 import com.simibubi.create.content.contraptions.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.contraptions.goggles.IHaveHoveringInformation;
 import com.simibubi.create.foundation.config.AllConfigs;
+
 import com.simibubi.create.foundation.gui.element.GuiGameElement;
 import com.simibubi.create.foundation.tileEntity.behaviour.ValueBox;
+import com.simibubi.create.foundation.utility.Color;
 import com.simibubi.create.foundation.utility.Iterate;
 import com.simibubi.create.foundation.utility.Lang;
 import com.simibubi.create.foundation.utility.outliner.Outline;
@@ -23,6 +27,7 @@ import com.simibubi.create.foundation.utility.outliner.Outliner.OutlineEntry;
 
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.Minecraft;
+
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -37,9 +42,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.TextComponent;
 
+
 public class GoggleOverlayRenderer {
 
-	private static final Map<Object, OutlineEntry> outlines = CreateClient.OUTLINER.getOutlines();
+	//private static final List<Supplier<Boolean>> customGogglePredicates = new LinkedList<>();
+	//private static final Map<Object, OutlineEntry> outlines = CreateClient.OUTLINER.getOutlines();
 
 	@SuppressWarnings("unused")
 	public static void renderOverlay(PoseStack ms, MultiBufferSource buffer, int light, int overlay, float partialTicks) {
@@ -95,7 +102,7 @@ public class GoggleOverlayRenderer {
 				hasHoveringInformation = true;
 				hoverAddedInformation = true;
 			}
-		}*/
+		}*//*
 		
 		if (hasGoggleInformation && wearingGoggles) {
 			IHaveGoggleInformation gte = (IHaveGoggleInformation) te;
@@ -188,5 +195,7 @@ public class GoggleOverlayRenderer {
 			this.height = height;
 		}*/
 	}
+
+
 
 }

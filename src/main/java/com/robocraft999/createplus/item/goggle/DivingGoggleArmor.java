@@ -37,8 +37,10 @@ public class DivingGoggleArmor extends GoggleArmor {
 
 		if (world.isClientSide)
 			entity.getPersistentData()
-				.remove("VisualBacktankAirCP");
-		if (!(((GoggleArmor)ItemList.goggle_diving_helmet).isWornBy(entity)))
+				.remove("VisualBacktankAir");
+
+		if (!AllItems.DIVING_HELMET.get()
+			.isWornBy(entity))
 			return;
 		if (!entity.isEyeInFluid(FluidTags.WATER))
 			return;
@@ -56,11 +58,8 @@ public class DivingGoggleArmor extends GoggleArmor {
 
 		if (world.isClientSide) {
 			entity.getPersistentData()
-				.putInt("VisualBacktankAirCP", (int) BackTankUtil.getAir(backtank));
-			System.out.println(entity.getPersistentData().getInt("VisualBacktankAirCP"));
-			//ClientEvents.timeLeft = (int) BackTankUtil.getAir(backtank);
-		}
-		
+				.putInt("VisualBacktankAir", (int) BackTankUtil.getAir(backtank));
+
 		if (!second)
 			return;
 
