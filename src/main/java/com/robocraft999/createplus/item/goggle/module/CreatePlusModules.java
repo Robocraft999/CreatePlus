@@ -1,22 +1,13 @@
 package com.robocraft999.createplus.item.goggle.module;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Supplier;
-
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 /*import mekanism.api.text.IHasTranslationKey;
 import mekanism.api.text.ILangEntry;
 import mekanism.common.MekanismLang;
 import mekanism.common.content.gear.Module;
 import mekanism.common.content.gear.Modules;
 import mekanism.common.content.gear.Modules.ModuleData;*/
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 
+@SuppressWarnings("unused")
 public class CreatePlusModules{
 	/*
 	private CreatePlusModules() {

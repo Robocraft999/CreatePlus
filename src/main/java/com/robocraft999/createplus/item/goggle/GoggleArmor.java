@@ -4,59 +4,55 @@ import javax.annotation.Nonnull;
 
 import com.robocraft999.createplus.lists.ArmorMaterialList;
 
-import net.minecraft.block.DispenserBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.IArmorMaterial;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.level.Level;
 
 public class GoggleArmor extends ArmorItem{
 
-	public GoggleArmor(IArmorMaterial material, Properties properties) {
-		super(material, EquipmentSlotType.HEAD, properties);
+	public GoggleArmor(ArmorMaterial material, Properties properties) {
+		super(material, EquipmentSlot.HEAD, properties);
 		DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
 	}
 
 	@Override
-	public EquipmentSlotType getEquipmentSlot(ItemStack stack) {
-		return EquipmentSlotType.HEAD;
+	public EquipmentSlot getEquipmentSlot(ItemStack stack) {
+		return EquipmentSlot.HEAD;
 	}
-	
 
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+	@Nonnull
+	public InteractionResultHolder<ItemStack> use(@Nonnull Level worldIn, Player playerIn, @Nonnull InteractionHand handIn) {
 		ItemStack itemstack = playerIn.getItemInHand(handIn);
-		EquipmentSlotType equipmentslottype = MobEntity.getEquipmentSlotForItem(itemstack);
+		EquipmentSlot equipmentslottype = Mob.getEquipmentSlotForItem(itemstack);
 		ItemStack itemstack1 = playerIn.getItemBySlot(equipmentslottype);
 		if (itemstack1.isEmpty()) {
 			playerIn.setItemSlot(equipmentslottype, itemstack.copy());
 			itemstack.setCount(0);
-			return new ActionResult<>(ActionResultType.SUCCESS, itemstack);
+			return new InteractionResultHolder<>(InteractionResult.SUCCESS, itemstack);
 		} else {
-			return new ActionResult<>(ActionResultType.FAIL, itemstack);
+			return new InteractionResultHolder<>(InteractionResult.FAIL, itemstack);
 		}
 	}
 	
 	public boolean isWornBy(Entity entity) {
-		if (!(entity instanceof LivingEntity))
+		if (!(entity instanceof LivingEntity livingEntity))
 			return false;
-		LivingEntity livingEntity = (LivingEntity) entity;
 		return livingEntity.getItemBySlot(slot).getItem() == this;
 	}
 	
 	
 	@Override
-    public boolean makesPiglinsNeutral(@Nonnull ItemStack stack, @Nonnull LivingEntity wearer) {
-        if(getMaterial() == ArmorMaterialList.GOGGLE_GOLD) {
-        	return true;
-        }
-        return false;
-    }
+  public boolean makesPiglinsNeutral(@Nonnull ItemStack stack, @Nonnull LivingEntity wearer) {
+		return getMaterial() == ArmorMaterialList.GOGGLE_GOLD;
+	}
 }
