@@ -1,22 +1,25 @@
 package com.robocraft999.createplus.item.goggle;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.robocraft999.createplus.lists.ItemList;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.CreateClient;
+import com.simibubi.create.content.contraptions.components.structureMovement.IDisplayAssemblyExceptions;
 import com.simibubi.create.content.contraptions.components.structureMovement.piston.MechanicalPistonBlock;
 import com.simibubi.create.content.contraptions.components.structureMovement.piston.PistonExtensionPoleBlock;
+import com.simibubi.create.content.contraptions.goggles.GogglesItem;
 import com.simibubi.create.content.contraptions.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.contraptions.goggles.IHaveHoveringInformation;
 import com.simibubi.create.foundation.config.AllConfigs;
 
+import com.simibubi.create.foundation.config.CClient;
+import com.simibubi.create.foundation.gui.RemovedGuiUtils;
+import com.simibubi.create.foundation.gui.Theme;
 import com.simibubi.create.foundation.gui.element.GuiGameElement;
 import com.simibubi.create.foundation.tileEntity.behaviour.ValueBox;
 import com.simibubi.create.foundation.utility.Color;
@@ -25,11 +28,10 @@ import com.simibubi.create.foundation.utility.Lang;
 import com.simibubi.create.foundation.utility.outliner.Outline;
 import com.simibubi.create.foundation.utility.outliner.Outliner.OutlineEntry;
 
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.Minecraft;
 
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
@@ -41,37 +43,56 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraftforge.client.gui.ForgeIngameGui;
+import net.minecraftforge.client.gui.IIngameOverlay;
+import net.minecraftforge.client.gui.OverlayRegistry;
 
 
 public class GoggleOverlayRenderer {
 
 	//private static final List<Supplier<Boolean>> customGogglePredicates = new LinkedList<>();
-	//private static final Map<Object, OutlineEntry> outlines = CreateClient.OUTLINER.getOutlines();
+	public static final IIngameOverlay OVERLAY = GoggleOverlayRenderer::renderOverlay;
 
-	@SuppressWarnings("unused")
-	public static void renderOverlay(PoseStack ms, MultiBufferSource buffer, int light, int overlay, float partialTicks) {
+	private static final Map<Object, OutlineEntry> outlines = CreateClient.OUTLINER.getOutlines();
+
+	public static int hoverTicks = 0;
+	public static BlockPos lastHovered = null;
+
+	public static void renderOverlay(ForgeIngameGui gui, PoseStack poseStack, float partialTicks, int width, int height) {
 		HitResult objectMouseOver = Minecraft.getInstance().hitResult;
 
-		if (!(objectMouseOver instanceof BlockHitResult result))
+		if (!(objectMouseOver instanceof BlockHitResult)) {
+			lastHovered = null;
+			hoverTicks = 0;
 			return;
+		}
 
 		for (OutlineEntry entry : outlines.values()) {
 			if (!entry.isAlive())
 				continue;
 			Outline outline = entry.getOutline();
-			if (outline instanceof ValueBox && !((ValueBox) outline).isPassive) 
+			if (outline instanceof ValueBox && !((ValueBox) outline).isPassive)
 				return;
 		}
 
+		BlockHitResult result = (BlockHitResult) objectMouseOver;
 		Minecraft mc = Minecraft.getInstance();
 		ClientLevel world = mc.level;
 		BlockPos pos = result.getBlockPos();
-		assert mc.player != null;
 		ItemStack headSlot = mc.player.getItemBySlot(EquipmentSlot.HEAD);
-		assert world != null;
 		BlockEntity te = world.getBlockEntity(pos);
 
-		boolean wearingGoggles = ItemList.isGoggleHelmet(headSlot);
+		if (lastHovered == null || lastHovered.equals(pos))
+			hoverTicks++;
+		else
+			hoverTicks = 0;
+		lastHovered = pos;
+
+
+		boolean wearingGoggles = ItemList.isGoggleHelmet(headSlot) || AllItems.GOGGLES.isIn(headSlot);
+		if(OverlayRegistry.getEntry(com.simibubi.create.content.contraptions.goggles.GoggleOverlayRenderer.OVERLAY).isEnabled()){
+			OverlayRegistry.enableOverlay(com.simibubi.create.content.contraptions.goggles.GoggleOverlayRenderer.OVERLAY, false);
+		}
 
 		boolean hasGoggleInformation = te instanceof IHaveGoggleInformation;
 		boolean hasHoveringInformation = te instanceof IHaveHoveringInformation;
@@ -80,17 +101,17 @@ public class GoggleOverlayRenderer {
 		boolean hoverAddedInformation = false;
 
 		List<Component> tooltip = new ArrayList<>();
-		/*
+
 		if (hasGoggleInformation && wearingGoggles) {
 			IHaveGoggleInformation gte = (IHaveGoggleInformation) te;
-			goggleAddedInformation = gte.addToGoggleTooltip(tooltip, mc.player.isSneaking());
+			goggleAddedInformation = gte.addToGoggleTooltip(tooltip, mc.player.isShiftKeyDown());
 		}
 
 		if (hasHoveringInformation) {
 			if (!tooltip.isEmpty())
-				tooltip.add(StringTextComponent.EMPTY);
+				tooltip.add(TextComponent.EMPTY);
 			IHaveHoveringInformation hte = (IHaveHoveringInformation) te;
-			hoverAddedInformation = hte.addToTooltip(tooltip, mc.player.isSneaking());
+			hoverAddedInformation = hte.addToTooltip(tooltip, mc.player.isShiftKeyDown());
 
 			if (goggleAddedInformation && !hoverAddedInformation)
 				tooltip.remove(tooltip.size() - 1);
@@ -102,16 +123,6 @@ public class GoggleOverlayRenderer {
 				hasHoveringInformation = true;
 				hoverAddedInformation = true;
 			}
-		}*//*
-		
-		if (hasGoggleInformation && wearingGoggles) {
-			IHaveGoggleInformation gte = (IHaveGoggleInformation) te;
-			if(hasHoveringInformation) {
-				IHaveHoveringInformation hte = (IHaveHoveringInformation) te;
-				hoverAddedInformation = hte.addToTooltip(tooltip, mc.player.isShiftKeyDown());
-			}
-			if(!tooltip.isEmpty())tooltip.add(TextComponent.EMPTY);
-			goggleAddedInformation = gte.addToGoggleTooltip(tooltip, mc.player.isShiftKeyDown());
 		}
 
 		// break early if goggle or hover returned false when present
@@ -122,15 +133,15 @@ public class GoggleOverlayRenderer {
 		BlockState state = world.getBlockState(pos);
 		if (wearingGoggles && AllBlocks.PISTON_EXTENSION_POLE.has(state)) {
 			Direction[] directions = Iterate.directionsInAxis(state.getValue(PistonExtensionPoleBlock.FACING)
-				.getAxis());
+					.getAxis());
 			int poles = 1;
 			boolean pistonFound = false;
 			for (Direction dir : directions) {
 				int attachedPoles = PistonExtensionPoleBlock.PlacementHelper.get()
-					.attachedPoles(world, pos, dir);
+						.attachedPoles(world, pos, dir);
 				poles += attachedPoles;
 				pistonFound |= world.getBlockState(pos.relative(dir, attachedPoles + 1))
-					.getBlock() instanceof MechanicalPistonBlock;
+						.getBlock() instanceof MechanicalPistonBlock;
 			}
 
 			if (!pistonFound)
@@ -139,61 +150,62 @@ public class GoggleOverlayRenderer {
 				tooltip.add(TextComponent.EMPTY);
 
 			tooltip.add(IHaveGoggleInformation.componentSpacing.plainCopy()
-				.append(Lang.translate("gui.goggles.pole_length"))
-				.append(new TextComponent(" " + poles)));
+					.append(Lang.translate("gui.goggles.pole_length"))
+					.append(new TextComponent(" " + poles)));
 		}
 
 		if (tooltip.isEmpty())
 			return;
 
-		ms.pushPose();
-		Screen tooltipScreen = new TooltipScreen(new TextComponent(""));
-		tooltipScreen.init(mc, mc.getWindow().getGuiScaledWidth(),
-			mc.getWindow().getGuiScaledHeight());
+		poseStack.pushPose();
 
 		int tooltipTextWidth = 0;
 		for (FormattedText textLine : tooltip) {
-			int textLineWidth = mc.font.width(textLine.getString());
+			int textLineWidth = mc.font.width(textLine);
 			if (textLineWidth > tooltipTextWidth)
 				tooltipTextWidth = textLineWidth;
 		}
 
 		int tooltipHeight = 8;
 		if (tooltip.size() > 1) {
-			tooltipHeight += (tooltip.size() - 1) * 10;
 			tooltipHeight += 2; // gap between title lines and next lines
+			tooltipHeight += (tooltip.size() - 1) * 10;
 		}
 
-		int posX = tooltipScreen.width / 2 + AllConfigs.CLIENT.overlayOffsetX.get();
-		int posY = tooltipScreen.height / 2 + AllConfigs.CLIENT.overlayOffsetY.get();
-		
-		posX = Math.min(posX, tooltipScreen.width - tooltipTextWidth - 20);
-		posY = Math.min(posY, tooltipScreen.height - tooltipHeight - 20);
+		CClient cfg = AllConfigs.CLIENT;
+		int posX = width / 2 + cfg.overlayOffsetX.get();
+		int posY = height / 2 + cfg.overlayOffsetY.get();
 
-		for (Component iTextComponent : tooltip) {
-			tooltipScreen.renderTooltip(ms, iTextComponent, posX, posY);
+		posX = Math.min(posX, width - tooltipTextWidth - 20);
+		posY = Math.min(posY, height - tooltipHeight - 20);
+
+		float fade = Mth.clamp((hoverTicks + partialTicks) / 12f, 0, 1);
+		Boolean useCustom = cfg.overlayCustomColor.get();
+		Color colorBackground = useCustom ?
+				new Color(cfg.overlayBackgroundColor.get()) :
+				Theme.c(Theme.Key.VANILLA_TOOLTIP_BACKGROUND).scaleAlpha(.75f);
+		Color colorBorderTop = useCustom ?
+				new Color(cfg.overlayBorderColorTop.get()) :
+				Theme.c(Theme.Key.VANILLA_TOOLTIP_BORDER, true).copy();
+		Color colorBorderBot = useCustom ?
+				new Color(cfg.overlayBorderColorBot.get()) :
+				Theme.c(Theme.Key.VANILLA_TOOLTIP_BORDER, false).copy();
+
+		if (fade < 1) {
+			poseStack.translate((1 - fade) * Math.signum(cfg.overlayOffsetX.get() + .5f) * 4, 0, 0);
+			colorBackground.scaleAlpha(fade);
+			colorBorderTop.scaleAlpha(fade);
+			colorBorderBot.scaleAlpha(fade);
 		}
+
+		RemovedGuiUtils.drawHoveringText(poseStack, tooltip, posX, posY, width, height, -1,
+				colorBackground.getRGB(), colorBorderTop.getRGB(), colorBorderBot.getRGB(), mc.font);
 
 		ItemStack item = AllItems.GOGGLES.asStack();
 		GuiGameElement.of(item)
-			.at(posX + 10, posY - 16, 450)
-			.render(ms);
-		ms.popPose();
-	}
-
-	public static final class TooltipScreen extends Screen {
-		public TooltipScreen(Component text) {
-			super(text);
-		}
-
-		/*@Override
-		public void init(Minecraft mc, int width, int height) {
-			this.minecraft = mc;
-			this.itemRenderer = mc.getItemRenderer();
-			this.font = mc.font;
-			this.width = width;
-			this.height = height;
-		}*/
+				.at(posX + 10, posY - 16, 450)
+				.render(poseStack);
+		poseStack.popPose();
 	}
 
 
