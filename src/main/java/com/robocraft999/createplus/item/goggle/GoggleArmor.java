@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 
 import com.robocraft999.createplus.lists.ArmorMaterialList;
 
+import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -53,6 +54,6 @@ public class GoggleArmor extends ArmorItem{
 	
 	@Override
   public boolean makesPiglinsNeutral(@Nonnull ItemStack stack, @Nonnull LivingEntity wearer) {
-		return getMaterial() == ArmorMaterialList.GOGGLE_GOLD;
+		return getMaterial() == ArmorMaterials.GOLD;
 	}
 }

@@ -15,8 +15,6 @@ public class DyableGoggleArmor extends GoggleArmor implements DyeableLeatherItem
 	@Override
 	public void setColor(@Nonnull ItemStack stack, int color) {
 		DyeableLeatherItem.super.setColor(stack, color);
-		System.out.println("color set");
-		System.out.println(getColor(stack));
 	}
 	
 }

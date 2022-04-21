@@ -60,18 +60,18 @@ public class DivingGoggleArmor extends GoggleArmor {
 			entity.getPersistentData()
 				.putInt("VisualBacktankAir", (int) BackTankUtil.getAir(backtank));
 
-		if (!second)
-			return;
+			if (!second)
+				return;
 
-		entity.setAirSupply(Math.min(entity.getMaxAirSupply(), entity.getAirSupply() + 10));
-		entity.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 30, 0, true, false, true));
-		BackTankUtil.consumeAir(backtank, 1);
+			entity.setAirSupply(Math.min(entity.getMaxAirSupply(), entity.getAirSupply() + 10));
+			entity.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 30, 0, true, false, true));
+			BackTankUtil.consumeAir(backtank, 1);
+		}
 	}
 	
 	private static ItemStack getBackTank(LivingEntity entity) {
-		ItemStack backtank;
-		
-		backtank = BackTankUtil.get(entity);
+		ItemStack backtank = BackTankUtil.get(entity);
+
 		
 		if(backtank == ItemStack.EMPTY) {
 			Minecraft mc = Minecraft.getInstance();
