@@ -1,8 +1,8 @@
 package com.robocraft999.createplus.item.goggle.module;
 
 //import mekanism.common.content.gear.mekasuit.ModuleMekaSuit;
+import net.minecraft.entity.player.PlayerEntity;
 
-@SuppressWarnings("unused")
 public class ModuleEngineersGogglesUnit /*extends ModuleMekaSuit*/{
 /*
 	@Override
