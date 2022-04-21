@@ -29,14 +29,14 @@ public class ItemList {
 	public static final DeferredRegister<Item> ITEM_REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, CreatePlus.MODID);
 
 	public static final RegistryObject<Item>
-		goggle_chainmail_helmet = ITEM_REGISTER.register("goggle_chainmail_helmet", () -> new GoggleArmor(ArmorMaterials.CHAIN, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT))),
-		goggle_diamond_helmet = ITEM_REGISTER.register("goggle_diamond_helmet", () -> new GoggleArmor(ArmorMaterials.DIAMOND, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT))),
-		goggle_golden_helmet = ITEM_REGISTER.register("goggle_golden_helmet", () -> new GoggleArmor(ArmorMaterials.GOLD, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT))),
-		goggle_iron_helmet = ITEM_REGISTER.register("goggle_iron_helmet", () -> new GoggleArmor(ArmorMaterials.IRON, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT))),
-		goggle_leather_helmet = ITEM_REGISTER.register("goggle_leather_helmet", () -> new DyableGoggleArmor(ArmorMaterials.LEATHER, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT))),
-		goggle_turtle_helmet = ITEM_REGISTER.register("goggle_turtle_helmet", () -> new GoggleArmor(ArmorMaterials.TURTLE, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT))),
-		goggle_netherite_helmet = ITEM_REGISTER.register("goggle_netherite_helmet", () -> new GoggleArmor(ArmorMaterials.NETHERITE, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT).fireResistant())),
-		goggle_diving_helmet = ITEM_REGISTER.register("goggle_diving_helmet", () -> new DivingGoggleArmor(AllArmorMaterials.COPPER, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
+		goggle_chainmail_helmet = ITEM_REGISTER.register("goggle_chainmail_helmet", () -> new GoggleArmor(ArmorMaterialList.GOGGLE_CHAIN, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT))),
+		goggle_diamond_helmet = ITEM_REGISTER.register("goggle_diamond_helmet", () -> new GoggleArmor(ArmorMaterialList.GOGGLE_DIAMOND, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT))),
+		goggle_golden_helmet = ITEM_REGISTER.register("goggle_golden_helmet", () -> new GoggleArmor(ArmorMaterialList.GOGGLE_GOLD, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT))),
+		goggle_iron_helmet = ITEM_REGISTER.register("goggle_iron_helmet", () -> new GoggleArmor(ArmorMaterialList.GOGGLE_IRON, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT))),
+		goggle_leather_helmet = ITEM_REGISTER.register("goggle_leather_helmet", () -> new DyableGoggleArmor(ArmorMaterialList.GOGGLE_LEATHER, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT))),
+		goggle_turtle_helmet = ITEM_REGISTER.register("goggle_turtle_helmet", () -> new GoggleArmor(ArmorMaterialList.GOGGLE_TURTLE, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT))),
+		goggle_netherite_helmet = ITEM_REGISTER.register("goggle_netherite_helmet", () -> new GoggleArmor(ArmorMaterialList.GOGGLE_NETHERITE, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT).fireResistant())),
+		goggle_diving_helmet = ITEM_REGISTER.register("goggle_diving_helmet", () -> new DivingGoggleArmor(ArmorMaterialList.GOGGLE_DIVING, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
 	
 	public static boolean isGoggleHelmet(ItemStack headSlot) {
 		Minecraft mc = Minecraft.getInstance();
