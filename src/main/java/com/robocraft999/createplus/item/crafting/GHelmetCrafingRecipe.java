@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.robocraft999.createplus.lists.ItemList;
 import com.robocraft999.createplus.lists.RecipeTypeList;
 
+import com.simibubi.create.AllItems;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.inventory.CraftingContainer;
@@ -50,40 +51,29 @@ public class GHelmetCrafingRecipe implements CraftingRecipe{
 		//System.out.println("getCraftingResult");
 		for (int slot = 0; slot < inv.getContainerSize(); slot++) {
 			ItemStack helmet = inv.getItem(slot).copy();
-			
-			boolean chainmail = Items.CHAINMAIL_HELMET == helmet.getItem();
-			boolean diamond = Items.DIAMOND_HELMET == helmet.getItem();
-			boolean golden = Items.GOLDEN_HELMET == helmet.getItem();
-			boolean iron = Items.IRON_HELMET == helmet.getItem();
-			boolean leather = Items.LEATHER_HELMET == helmet.getItem();
-			boolean turtle = Items.TURTLE_HELMET == helmet.getItem();
-			boolean netherite = Items.NETHERITE_HELMET == helmet.getItem();
-			
-			boolean HelmetInGrid = chainmail || diamond || golden || iron || leather || turtle || netherite;
-			
+
 			ItemStack goggleHelmet = ItemStack.EMPTY;
-			if(chainmail)goggleHelmet = new ItemStack(ItemList.goggle_chainmail_helmet);
-			if(diamond)goggleHelmet = new ItemStack(ItemList.goggle_diamond_helmet);
-			if(golden)goggleHelmet = new ItemStack(ItemList.goggle_golden_helmet);
-			if(iron)goggleHelmet = new ItemStack(ItemList.goggle_iron_helmet);
-			if(leather)goggleHelmet = new ItemStack(ItemList.goggle_leather_helmet);
-			if(turtle)goggleHelmet = new ItemStack(ItemList.goggle_turtle_helmet);
-			if(netherite)goggleHelmet = new ItemStack(ItemList.goggle_netherite_helmet);
-			
-			//System.out.println(HelmetInGrid);
-			
-			if (!(HelmetInGrid))continue;
-				Map<Enchantment, Integer> map;
-				map = EnchantmentHelper.getEnchantments(helmet);
-				//System.out.println("got enchantments "+map);
+			if(helmet.is(Items.CHAINMAIL_HELMET))goggleHelmet = new ItemStack(ItemList.goggle_chainmail_helmet.get());
+			if(helmet.is(Items.DIAMOND_HELMET))goggleHelmet = new ItemStack(ItemList.goggle_diamond_helmet.get());
+			if(helmet.is(Items.GOLDEN_HELMET))goggleHelmet = new ItemStack(ItemList.goggle_golden_helmet.get());
+			if(helmet.is(Items.IRON_HELMET))goggleHelmet = new ItemStack(ItemList.goggle_iron_helmet.get());
+			if(helmet.is(Items.LEATHER_HELMET))goggleHelmet = new ItemStack(ItemList.goggle_leather_helmet.get());
+			if(helmet.is(Items.TURTLE_HELMET))goggleHelmet = new ItemStack(ItemList.goggle_turtle_helmet.get());
+			if(helmet.is(Items.NETHERITE_HELMET))goggleHelmet = new ItemStack(ItemList.goggle_netherite_helmet.get());
+			if(helmet.is(AllItems.DIVING_HELMET.get()))goggleHelmet = new ItemStack(ItemList.goggle_diving_helmet.get());
+
+			if (!goggleHelmet.isEmpty())continue;
+			Map<Enchantment, Integer> map;
+			map = EnchantmentHelper.getEnchantments(helmet);
+			//System.out.println("got enchantments "+map);
 				
-				for(Entry<Enchantment, Integer> entry : map.entrySet()) {
-					Enchantment enchantment = entry.getKey();
-					if (!enchantment.isCurse() || EnchantmentHelper.getItemEnchantmentLevel(enchantment, goggleHelmet) == 0) {
-						goggleHelmet.enchant(enchantment, entry.getValue());
-						//System.out.println("added enchantment");
-					}
+			for(Entry<Enchantment, Integer> entry : map.entrySet()) {
+				Enchantment enchantment = entry.getKey();
+				if (!enchantment.isCurse() || EnchantmentHelper.getItemEnchantmentLevel(enchantment, goggleHelmet) == 0) {
+					goggleHelmet.enchant(enchantment, entry.getValue());
+					//System.out.println("added enchantment");
 				}
+			}
 			return goggleHelmet;
 		}
 		return ItemStack.EMPTY;
