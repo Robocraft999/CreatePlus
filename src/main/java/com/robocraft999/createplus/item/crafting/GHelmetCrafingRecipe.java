@@ -48,7 +48,6 @@ public class GHelmetCrafingRecipe implements CraftingRecipe{
 	@Nonnull
 	@Override
 	public ItemStack assemble(CraftingContainer inv) {
-		//System.out.println("getCraftingResult");
 		for (int slot = 0; slot < inv.getContainerSize(); slot++) {
 			ItemStack helmet = inv.getItem(slot).copy();
 
@@ -62,7 +61,7 @@ public class GHelmetCrafingRecipe implements CraftingRecipe{
 			if(helmet.is(Items.NETHERITE_HELMET))goggleHelmet = new ItemStack(ItemList.goggle_netherite_helmet.get());
 			if(helmet.is(AllItems.DIVING_HELMET.get()))goggleHelmet = new ItemStack(ItemList.goggle_diving_helmet.get());
 
-			if (!goggleHelmet.isEmpty())continue;
+			if (goggleHelmet.isEmpty())continue;
 			Map<Enchantment, Integer> map;
 			map = EnchantmentHelper.getEnchantments(helmet);
 			//System.out.println("got enchantments "+map);

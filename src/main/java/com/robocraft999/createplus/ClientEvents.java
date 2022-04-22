@@ -12,6 +12,7 @@ import com.simibubi.create.content.contraptions.base.IRotate.SpeedLevel;
 import com.simibubi.create.content.contraptions.base.IRotate.StressImpact;
 import com.simibubi.create.content.contraptions.components.crank.ValveHandleBlock;
 import com.simibubi.create.content.contraptions.components.flywheel.engine.EngineBlock;
+import com.simibubi.create.foundation.block.BlockStressValues;
 import com.simibubi.create.foundation.config.AllConfigs;
 import com.simibubi.create.foundation.config.CKinetics;
 import com.simibubi.create.foundation.gui.element.GuiGameElement;
@@ -117,26 +118,29 @@ public class ClientEvents {
 		List<Component> itemTooltip = event.getToolTip();
 
 		BlockItem item = (BlockItem) stack.getItem();
-			
-		boolean isEngine = item.getBlock() instanceof EngineBlock;
-		boolean isHandle = item.getBlock() instanceof ValveHandleBlock;
-		if(!(item.getBlock() instanceof IRotate || isEngine))return;
-		CKinetics config = AllConfigs.SERVER.kinetics;
-		SpeedLevel minimumRequiredSpeedLevel = isEngine ? SpeedLevel.NONE : ((IRotate) item.getBlock()).getMinimumRequiredSpeedLevel();
-
-		boolean hasSpeedRequirement = minimumRequiredSpeedLevel != SpeedLevel.NONE;
-		ResourceLocation id = item.getBlock().getRegistryName();
-		Map<ResourceLocation, ConfigValue<Double>> impacts = config.stressValues.getImpacts();
-		Map<ResourceLocation, ConfigValue<Double>> capacities = config.stressValues.getCapacities();
-		boolean hasStressImpact = impacts.containsKey(id) && impacts.get(id).get() > 0 && StressImpact.isEnabled();
-		boolean hasStressCapacity = (isHandle || capacities.containsKey(id)) && StressImpact.isEnabled();
 
 		ItemStack headSlot = event.getPlayer().getItemBySlot(EquipmentSlot.HEAD);
 		boolean hasGlasses = ItemList.isGoggleHelmet(headSlot);
 		Component rpmUnit = Lang.translate("generic.unit.rpm");
-			
+		CKinetics config = AllConfigs.SERVER.kinetics;
+
 		if(!hasGlasses)return;
-			
+
+		SpeedLevel minimumRequiredSpeedLevel;
+		boolean showStressImpact;
+		if (!(item.getBlock() instanceof IRotate)) {
+			minimumRequiredSpeedLevel = SpeedLevel.NONE;
+			showStressImpact = true;
+		} else {
+			minimumRequiredSpeedLevel = ((IRotate) item.getBlock()).getMinimumRequiredSpeedLevel();
+			showStressImpact = !((IRotate) item.getBlock()).hideStressImpact();
+		}
+
+		boolean hasSpeedRequirement = minimumRequiredSpeedLevel != SpeedLevel.NONE && minimumRequiredSpeedLevel != SpeedLevel.SLOW;
+		boolean hasStressImpact = StressImpact.isEnabled() && showStressImpact && BlockStressValues.getImpact(item.getBlock()) > 0;
+		boolean hasStressCapacity = StressImpact.isEnabled() && BlockStressValues.hasCapacity(item.getBlock());
+
+
 		if(hasSpeedRequirement) {
 			int index = 1 + itemTooltip.indexOf(Lang.translate("tooltip.speedRequirement").withStyle(ChatFormatting.GRAY));
 			MutableComponent level = new TextComponent(ItemDescription.makeProgressBar(3, minimumRequiredSpeedLevel.ordinal())).withStyle(minimumRequiredSpeedLevel.getTextColor());
@@ -149,19 +153,19 @@ public class ClientEvents {
 		if(hasStressImpact/* && !(!isEngine && ((IRotate) itemblock).hideStressImpact())*/) {
 
 			int index = 1 + itemTooltip.indexOf(Lang.translate("tooltip.stressImpact").withStyle(ChatFormatting.GRAY));
-			double impact = impacts.get(id).get();
+			double impact = BlockStressValues.getImpact(item.getBlock());
 			StressImpact impactId = impact >= config.highStressImpact.get() ? StressImpact.HIGH : (impact >= config.mediumStressImpact.get() ? StressImpact.MEDIUM : StressImpact.LOW);
-			MutableComponent level = new TextComponent(ItemDescription.makeProgressBar(3, impactId.ordinal())).withStyle(impactId.getAbsoluteColor());
-			level.append(impacts.get(id).get() + "x ").append(rpmUnit);
+			MutableComponent level = new TextComponent(ItemDescription.makeProgressBar(3, impactId.ordinal() + 1)).withStyle(impactId.getAbsoluteColor());
+			level.append(impact + "x ").append(rpmUnit);
 			if(index > 0) {
 				itemTooltip.set(index, level);
 			}
 		}
 		if(hasStressCapacity) {
 			int index = 1 + itemTooltip.indexOf(Lang.translate("tooltip.capacityProvided").withStyle(ChatFormatting.GRAY));
-			double capacity = capacities.get(isHandle ? AllBlocks.HAND_CRANK.getId() : id).get();
+			double capacity = BlockStressValues.getCapacity(item.getBlock());
 			StressImpact impactId = capacity >= config.highCapacity.get() ? StressImpact.LOW : (capacity >= config.mediumCapacity.get() ? StressImpact.MEDIUM : StressImpact.HIGH);
-			MutableComponent level = new TextComponent(ItemDescription.makeProgressBar(3, StressImpact.values().length - 2 - impactId.ordinal())).withStyle(impactId.getAbsoluteColor());
+			MutableComponent level = new TextComponent(ItemDescription.makeProgressBar(3, StressImpact.values().length - 1 - impactId.ordinal())).withStyle(impactId.getAbsoluteColor());
 			level.append(capacity + "x ").append(rpmUnit);
 			if(index > 0) {
 				itemTooltip.set(index, level);

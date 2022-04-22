@@ -1,0 +1,17 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "createplus:goggle_diving_helmet"
+    }
+  ],
+  "results": [
+    {
+      "item": "create:diving_helmet"
+    },
+    {
+      "item": "create:goggles"
+    }
+  ],
+  "processingTime": 150
+}
