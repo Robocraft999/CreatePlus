@@ -48,7 +48,6 @@ public class CreatePlus {
 		
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> modEventBus.addListener(this::registerItemColors));
 
-		//MinecraftForge.EVENT_BUS.register(new ClientEvents());
 		modEventBus.addGenericListener(RecipeSerializer.class, RecipeTypeList::register);
 		
 		MinecraftForge.EVENT_BUS.register(this);
@@ -60,9 +59,6 @@ public class CreatePlus {
 	
 	
 	private void clientRegistries(final FMLClientSetupEvent event) {
-		//OverlayRegistry.registerOverlayAbove(ForgeIngameGui.HOTBAR_ELEMENT, "Create's Goggle Information", GoggleOverlayRenderer.OVERLAY);
-        OverlayRegistry.enableOverlay(GoggleOverlayRenderer.OVERLAY, false);
-        OverlayRegistry.registerOverlayAbove(GoggleOverlayRenderer.OVERLAY, "Createplus's Goggle Information", com.robocraft999.createplus.item.goggle.GoggleOverlayRenderer.OVERLAY);
 		logger.info("Create Plus Client Setup");
 	}
 	
@@ -78,26 +74,10 @@ public class CreatePlus {
 		@SubscribeEvent
 		public static void enqueueIMC(final InterModEnqueueEvent event) {
 			ModLoadedCondition curios_loaded = new ModLoadedCondition("curios");
-			if(curios_loaded.test())
+			if(curios_loaded.test()) {
 				/*InterModComms.sendTo(MODID, "curios", SlotTypeMessage.REGISTER_TYPE,
 						() -> new SlotTypeMessage.Builder("createplus.backtank_slot").size(1).icon(new ResourceLocation(MODID, "item/goggle_slot_icon")).build());*/
-				
-				InterModComms.sendTo(MODID, "curios", SlotTypeMessage.REGISTER_TYPE, 
-				() -> new SlotTypeMessage.Builder("createplus.goggle_slot").size(1).icon(new ResourceLocation(MODID, "item/goggle_slot_icon")).build());
+			}
 		}
-	}
-	
-	@Mod.EventBusSubscriber(modid = MODID, value = Dist.CLIENT, bus = Bus.MOD)
-	  public static class ClientProxy {
-
-		@SuppressWarnings("unused")
-	    @SubscribeEvent
-	    public static void stitchTextures(TextureStitchEvent.Pre evt) {
-
-
-	      if (evt.getAtlas().location() == InventoryMenu.BLOCK_ATLAS) {
-	        evt.addSprite(new ResourceLocation(MODID, "item/goggle_slot_icon"));
-	      }
-	    }
 	}
 }

@@ -6,6 +6,7 @@ import com.robocraft999.createplus.lists.ArmorMaterialList;
 
 import com.robocraft999.createplus.lists.ItemList;
 import com.simibubi.create.AllItems;
+import com.simibubi.create.content.contraptions.goggles.GogglesItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.DispenserBlock;
@@ -31,6 +32,7 @@ public class GoggleArmor extends ArmorItem{
 	public GoggleArmor(ArmorMaterial material, Properties properties) {
 		super(material, EquipmentSlot.HEAD, properties);
 		DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
+		GogglesItem.addIsWearingPredicate(this::isGoggleHelmet);
 	}
 
 	@Override
@@ -55,5 +57,37 @@ public class GoggleArmor extends ArmorItem{
 	@Override
   	public boolean makesPiglinsNeutral(@Nonnull ItemStack stack, @Nonnull LivingEntity wearer) {
 		return getMaterial() == ArmorMaterialList.GOGGLE_GOLD;
+	}
+
+	public boolean isGoggleHelmet(Player player) {
+		ItemStack headSlot = player.getItemBySlot(EquipmentSlot.HEAD);
+
+		for(RegistryObject<Item> regItem : ItemList.ITEM_REGISTER.getEntries()){
+			if(regItem.get().equals(headSlot.getItem()))return true;
+		}
+
+		ModLoadedCondition curiosloaded = new ModLoadedCondition("curios");
+		if(curiosloaded.test()) {
+			LazyOptional<IItemHandlerModifiable> test = CuriosApi.getCuriosHelper().getEquippedCurios(player);
+			IItemHandlerModifiable test2 = test.orElse(null);
+			for(int i = 0; i < test2.getSlots();i++) {
+				ItemStack curiosSlot = test2.getStackInSlot(i);
+				if(curiosSlot.getItem() == AllItems.GOGGLES.get())return true;
+			}
+		}
+		/*
+		ModLoadedCondition mekloaded = new ModLoadedCondition("mekanism");
+		if(mekloaded.test()) {
+			if(headSlot.getItem() == MekanismItems.MEKASUIT_HELMET.asItem()) {
+				ItemMekaSuitArmor helmet = (ItemMekaSuitArmor)headSlot.getItem();
+				if(helmet.hasModule(headSlot, Modules.VISION_ENHANCEMENT_UNIT)) {//TODO add own Module
+					if(helmet.isModuleEnabled(headSlot, Modules.VISION_ENHANCEMENT_UNIT)) {//TODO add own Module
+						wearingGoggles = true;
+					}
+				}
+			}
+		}*/
+
+		return false;
 	}
 }
