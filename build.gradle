@@ -14,7 +14,7 @@ apply plugin: 'maven-publish'
 apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
 
 
-version = "1.18.2_v0.4.0.0"
+version = "${minecraft_version}_v${mod_version}"
 group = 'com.robocraft999.createplus' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'createplus'
 
@@ -28,10 +28,10 @@ minecraft {
     // Use non-default mappings at your own risk. they may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
 
-    mappings channel: 'official', version: '1.18.2'
+    mappings channel: 'official', version: "${minecraft_version}"
 
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-    
+
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     // Default run configurations.
@@ -40,7 +40,7 @@ minecraft {
         client {
             workingDirectory project.file('run')
 
-			jvmArgs "-Dmixin.env.disableRefMap=true"
+            jvmArgs "-Dmixin.env.disableRefMap=true"
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
 
@@ -88,7 +88,7 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
-	maven {
+    maven {
         url "https://www.cursemaven.com"
     }
 }
@@ -97,16 +97,13 @@ dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.18.2-40.1.0'
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    //compile fg.deobf("curse.maven:create-328085:3167531")//0.3e
-    //compile fg.deobf("curse.maven:create-328085:3384222")//0.3.2a
-    //implementation fg.deobf("curse.maven:create-328085:3623348")//0.4d
     implementation fg.deobf("curse.maven:create-328085:3737418")//0.4.1
-    
+
     //compile fg.deobf("curse.maven:mekanism-268560:3183270")
     implementation fg.deobf("curse.maven:curios-309927:3748873")
-    
+
 
     implementation fg.deobf("curse.maven:flywheel-486392:3737402")//0.6.2
 
@@ -116,20 +113,20 @@ dependencies {
 jar {
     manifest {
         attributes([
-            "Specification-Title": "createplus",
-            "Specification-Vendor": "robocraft999",
-            "Specification-Version": "1", // We are version 1 of ourselves
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"robocraft999",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                "Specification-Title": "createplus",
+                "Specification-Vendor": "robocraft999",
+                "Specification-Version": "1", // We are version 1 of ourselves
+                "Implementation-Title": project.name,
+                "Implementation-Version": "${version}",
+                "Implementation-Vendor" :"robocraft999",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 }
 
 // Example configuration to allow publishing using the maven-publish task
 // This is the preferred method to reobfuscate your jar file
-jar.finalizedBy('reobfJar') 
+jar.finalizedBy('reobfJar')
 // However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
 //publish.dependsOn('reobfJar')
 

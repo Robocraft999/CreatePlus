@@ -11,6 +11,8 @@ import com.simibubi.create.AllItems;
 import com.simibubi.create.content.curiosities.armor.AllArmorMaterials;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -37,25 +39,26 @@ public class ItemList {
 		goggle_turtle_helmet = ITEM_REGISTER.register("goggle_turtle_helmet", () -> new GoggleArmor(ArmorMaterialList.GOGGLE_TURTLE, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT))),
 		goggle_netherite_helmet = ITEM_REGISTER.register("goggle_netherite_helmet", () -> new GoggleArmor(ArmorMaterialList.GOGGLE_NETHERITE, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT).fireResistant())),
 		goggle_diving_helmet = ITEM_REGISTER.register("goggle_diving_helmet", () -> new DivingGoggleArmor(ArmorMaterialList.GOGGLE_DIVING, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
-	
-	public static boolean isGoggleHelmet(ItemStack headSlot) {
-		Minecraft mc = Minecraft.getInstance();
 
-		//boolean wearingGoggles = GOGGLES.contains(headSlot.getItem());
-		for(RegistryObject<Item> regItem : ITEM_REGISTER.getEntries()){
+
+
+	public static boolean isGoggleHelmet(Player player) {
+		ItemStack headSlot = player.getItemBySlot(EquipmentSlot.HEAD);
+
+		for(RegistryObject<Item> regItem : ItemList.ITEM_REGISTER.getEntries()){
 			if(regItem.get().equals(headSlot.getItem()))return true;
 		}
-		
+
 		ModLoadedCondition curiosloaded = new ModLoadedCondition("curios");
 		if(curiosloaded.test()) {
-			LazyOptional<IItemHandlerModifiable> test = CuriosApi.getCuriosHelper().getEquippedCurios(mc.player);
+			LazyOptional<IItemHandlerModifiable> test = CuriosApi.getCuriosHelper().getEquippedCurios(player);
 			IItemHandlerModifiable test2 = test.orElse(null);
 			for(int i = 0; i < test2.getSlots();i++) {
 				ItemStack curiosSlot = test2.getStackInSlot(i);
 				if(curiosSlot.getItem() == AllItems.GOGGLES.get())return true;
 			}
 		}
-		/*	
+		/*
 		ModLoadedCondition mekloaded = new ModLoadedCondition("mekanism");
 		if(mekloaded.test()) {
 			if(headSlot.getItem() == MekanismItems.MEKASUIT_HELMET.asItem()) {
@@ -67,12 +70,8 @@ public class ItemList {
 				}
 			}
 		}*/
-		
-		return false;
-	}
 
-	private static ResourceLocation location(String name) {
-		return new ResourceLocation(CreatePlus.MODID,name);
+		return false;
 	}
 
 	public static void register(IEventBus bus) {

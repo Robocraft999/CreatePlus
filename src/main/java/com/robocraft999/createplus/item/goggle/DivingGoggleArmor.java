@@ -20,13 +20,14 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import top.theillusivec4.curios.api.CuriosApi;
 
-@EventBusSubscriber
+//@EventBusSubscriber
 public class DivingGoggleArmor extends GoggleArmor {
+
 
 	public DivingGoggleArmor(ArmorMaterial material, Properties properties) {
 		super(material, properties);
 	}
-	
+	/*
 	//@SubscribeEvent(priority = EventPriority.LOW)
 	@SuppressWarnings("unused")
 	public static void breatheUnderwater(LivingUpdateEvent event) {
@@ -87,6 +88,6 @@ public class DivingGoggleArmor extends GoggleArmor {
 		}
 		
 		return backtank;
-	}
+	}*/
 
 }

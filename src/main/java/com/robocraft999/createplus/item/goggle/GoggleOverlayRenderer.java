@@ -12,7 +12,6 @@ import com.simibubi.create.CreateClient;
 import com.simibubi.create.content.contraptions.components.structureMovement.IDisplayAssemblyExceptions;
 import com.simibubi.create.content.contraptions.components.structureMovement.piston.MechanicalPistonBlock;
 import com.simibubi.create.content.contraptions.components.structureMovement.piston.PistonExtensionPoleBlock;
-import com.simibubi.create.content.contraptions.goggles.GogglesItem;
 import com.simibubi.create.content.contraptions.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.contraptions.goggles.IHaveHoveringInformation;
 import com.simibubi.create.foundation.config.AllConfigs;
@@ -89,7 +88,7 @@ public class GoggleOverlayRenderer {
 		lastHovered = pos;
 
 
-		boolean wearingGoggles = ItemList.isGoggleHelmet(headSlot) || AllItems.GOGGLES.isIn(headSlot);
+		boolean wearingGoggles = ItemList.isGoggleHelmet(mc.player) || AllItems.GOGGLES.isIn(headSlot);
 		if(OverlayRegistry.getEntry(com.simibubi.create.content.contraptions.goggles.GoggleOverlayRenderer.OVERLAY).isEnabled()){
 			OverlayRegistry.enableOverlay(com.simibubi.create.content.contraptions.goggles.GoggleOverlayRenderer.OVERLAY, false);
 		}

@@ -1,18 +1,12 @@
 
 modLoader="javafml" #mandatory
-loaderVersion="[35,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
-# The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
-# Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
-license="All rights reserved"
-#issueTrackerURL="http://my.issue.tracker/" #optional
+loaderVersion="[40,)"
+
+license="MIT"
 [[mods]] #mandatory
 modId="createplus" #mandatory
-# ${file.jarVersion} will substitute the value of the Implementation-Version as read from the mod's JAR file metadata
 version="${file.jarVersion}" #mandatory
 displayName="Create Plus" #mandatory
-#updateJSONURL="http://myurl.me/" #optional
-#displayURL="http://example.com/" #optional
-#logoFile="examplemod.png" #optional
 credits="Thanks for this example mod goes to Java" #optional
 authors="Robocraft999" #optional
 description='''
@@ -22,20 +16,20 @@ description='''
 [[dependencies.createplus]] #optional
     modId="forge" #mandatory
     mandatory=true #mandatory
-    versionRange="[35,)" #mandatory
+    versionRange="[40,)" #mandatory
     ordering="NONE"
     side="BOTH"
 # Here's another dependency
 [[dependencies.createplus]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.4,)"
+    versionRange="[1.18.2,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.createplus]]
     modId="create"
     mandatory=true
-    versionRange="[v0.3.2a,)"
+    versionRange="[v0.5.0,)"
     ordering="AFTER"
     side="BOTH"
    

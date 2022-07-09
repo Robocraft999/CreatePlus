@@ -2,16 +2,12 @@ package com.robocraft999.createplus;
 
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.robocraft999.createplus.item.goggle.GoggleOverlayRenderer;
 import com.robocraft999.createplus.lists.ItemList;
-import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.Create;
 import com.simibubi.create.content.contraptions.base.IRotate;
 import com.simibubi.create.content.contraptions.base.IRotate.SpeedLevel;
 import com.simibubi.create.content.contraptions.base.IRotate.StressImpact;
-import com.simibubi.create.content.contraptions.components.crank.ValveHandleBlock;
-import com.simibubi.create.content.contraptions.components.flywheel.engine.EngineBlock;
 import com.simibubi.create.foundation.block.BlockStressValues;
 import com.simibubi.create.foundation.config.AllConfigs;
 import com.simibubi.create.foundation.config.CKinetics;
@@ -27,26 +23,19 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.StringUtil;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
 import java.util.List;
-import java.util.Map;
 
 @EventBusSubscriber(Dist.CLIENT)
 public class ClientEvents {
@@ -119,8 +108,7 @@ public class ClientEvents {
 
 		BlockItem item = (BlockItem) stack.getItem();
 
-		ItemStack headSlot = event.getPlayer().getItemBySlot(EquipmentSlot.HEAD);
-		boolean hasGlasses = ItemList.isGoggleHelmet(headSlot);
+		boolean hasGlasses = ItemList.isGoggleHelmet(event.getPlayer());
 		Component rpmUnit = Lang.translate("generic.unit.rpm");
 		CKinetics config = AllConfigs.SERVER.kinetics;
 
@@ -136,7 +124,7 @@ public class ClientEvents {
 			showStressImpact = !((IRotate) item.getBlock()).hideStressImpact();
 		}
 
-		boolean hasSpeedRequirement = minimumRequiredSpeedLevel != SpeedLevel.NONE && minimumRequiredSpeedLevel != SpeedLevel.SLOW;
+		boolean hasSpeedRequirement = minimumRequiredSpeedLevel != SpeedLevel.NONE && minimumRequiredSpeedLevel != SpeedLevel.SLOW;//TODO && minimumRequiredSpeedLevel != SpeedLevel.SLOW; (1.18.2)
 		boolean hasStressImpact = StressImpact.isEnabled() && showStressImpact && BlockStressValues.getImpact(item.getBlock()) > 0;
 		boolean hasStressCapacity = StressImpact.isEnabled() && BlockStressValues.hasCapacity(item.getBlock());
 
@@ -155,7 +143,7 @@ public class ClientEvents {
 			int index = 1 + itemTooltip.indexOf(Lang.translate("tooltip.stressImpact").withStyle(ChatFormatting.GRAY));
 			double impact = BlockStressValues.getImpact(item.getBlock());
 			StressImpact impactId = impact >= config.highStressImpact.get() ? StressImpact.HIGH : (impact >= config.mediumStressImpact.get() ? StressImpact.MEDIUM : StressImpact.LOW);
-			MutableComponent level = new TextComponent(ItemDescription.makeProgressBar(3, impactId.ordinal() + 1)).withStyle(impactId.getAbsoluteColor());
+			MutableComponent level = new TextComponent(ItemDescription.makeProgressBar(3, impactId.ordinal() + 1)).withStyle(impactId.getAbsoluteColor());//TODO impactId.ordinal() + 1 (1.18.2)
 			level.append(impact + "x ").append(rpmUnit);
 			if(index > 0) {
 				itemTooltip.set(index, level);
@@ -165,7 +153,7 @@ public class ClientEvents {
 			int index = 1 + itemTooltip.indexOf(Lang.translate("tooltip.capacityProvided").withStyle(ChatFormatting.GRAY));
 			double capacity = BlockStressValues.getCapacity(item.getBlock());
 			StressImpact impactId = capacity >= config.highCapacity.get() ? StressImpact.LOW : (capacity >= config.mediumCapacity.get() ? StressImpact.MEDIUM : StressImpact.HIGH);
-			MutableComponent level = new TextComponent(ItemDescription.makeProgressBar(3, StressImpact.values().length - 1 - impactId.ordinal())).withStyle(impactId.getAbsoluteColor());
+			MutableComponent level = new TextComponent(ItemDescription.makeProgressBar(3, StressImpact.values().length - 1 - impactId.ordinal())).withStyle(impactId.getAbsoluteColor());//TODO -1 (1.18.2)
 			level.append(capacity + "x ").append(rpmUnit);
 			if(index > 0) {
 				itemTooltip.set(index, level);
