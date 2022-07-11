@@ -2,12 +2,16 @@ package com.robocraft999.createplus.item.goggle;
 
 import javax.annotation.Nonnull;
 
+import com.robocraft999.createplus.CreatePlus;
 import com.robocraft999.createplus.lists.ArmorMaterialList;
 
 import com.robocraft999.createplus.lists.ItemList;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.content.contraptions.goggles.GogglesItem;
 import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.entity.Entity;
@@ -27,12 +31,18 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.registries.RegistryObject;
 import top.theillusivec4.curios.api.CuriosApi;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 public class GoggleArmor extends ArmorItem{
 
+	private final String TAG_NAME = "goggle";
 	public GoggleArmor(ArmorMaterial material, Properties properties) {
 		super(material, EquipmentSlot.HEAD, properties);
 		DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
-		GogglesItem.addIsWearingPredicate(this::isGoggleHelmet);
+		GogglesItem.addIsWearingPredicate(this::isGoggleHelmet); //TODO move somewhere where its not called by each new instance
 	}
 
 	@Override
@@ -62,19 +72,13 @@ public class GoggleArmor extends ArmorItem{
 	public boolean isGoggleHelmet(Player player) {
 		ItemStack headSlot = player.getItemBySlot(EquipmentSlot.HEAD);
 
-		for(RegistryObject<Item> regItem : ItemList.ITEM_REGISTER.getEntries()){
-			if(regItem.get().equals(headSlot.getItem()))return true;
-		}
-
-		ModLoadedCondition curiosloaded = new ModLoadedCondition("curios");
-		if(curiosloaded.test()) {
-			LazyOptional<IItemHandlerModifiable> test = CuriosApi.getCuriosHelper().getEquippedCurios(player);
-			IItemHandlerModifiable test2 = test.orElse(null);
-			for(int i = 0; i < test2.getSlots();i++) {
-				ItemStack curiosSlot = test2.getStackInSlot(i);
-				if(curiosSlot.getItem() == AllItems.GOGGLES.get())return true;
+		List<TagKey<Item>> tags = headSlot.getTags().filter(tag -> tag.location().getNamespace().equals(CreatePlus.MODID)).toList();
+		for(TagKey<Item> tag : tags){
+			if(tag.location().getPath().equals(TAG_NAME)){
+				return true;
 			}
 		}
+
 		/*
 		ModLoadedCondition mekloaded = new ModLoadedCondition("mekanism");
 		if(mekloaded.test()) {
