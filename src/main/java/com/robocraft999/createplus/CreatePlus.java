@@ -1,5 +1,9 @@
 package com.robocraft999.createplus;
 
+import com.robocraft999.createplus.item.goggle.module.GoggleModule;
+import com.robocraft999.createplus.lists.ModuleList;
+import mekanism.api.MekanismAPI;
+import mekanism.api.MekanismIMC;
 import net.minecraftforge.client.gui.OverlayRegistry;
 import net.minecraftforge.eventbus.api.IEventBus;
 import org.apache.logging.log4j.LogManager;
@@ -42,6 +46,8 @@ public class CreatePlus {
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
 		ItemList.register(modEventBus);
+        if(new ModLoadedCondition("mekanism").test())
+		    ModuleList.register(modEventBus);
 		
 		modEventBus.addListener(this::setup);
 		modEventBus.addListener(this::clientRegistries);
@@ -77,6 +83,11 @@ public class CreatePlus {
 			if(curios_loaded.test()) {
 				/*InterModComms.sendTo(MODID, "curios", SlotTypeMessage.REGISTER_TYPE,
 						() -> new SlotTypeMessage.Builder("createplus.backtank_slot").size(1).icon(new ResourceLocation(MODID, "item/goggle_slot_icon")).build());*/
+
+			}
+			ModLoadedCondition mekanism_loaded = new ModLoadedCondition("mekanism");
+			if(mekanism_loaded.test()){
+				MekanismIMC.addMekaSuitHelmetModules(ModuleList.GOGGLE_MODULE.get());
 			}
 		}
 	}

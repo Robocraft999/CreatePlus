@@ -1,7 +1,7 @@
 # CreatePlus
 
-[![CurseForge](http://cf.way2muchnoise.eu/full_377835_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/travel-anchors)
-[![Issues](https://img.shields.io/github/issues/castcrafter/travel_anchors)](https://github.com/castcrafter/travel_anchors/issues)
+[![CurseForge](http://cf.way2muchnoise.eu/full_377835_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/create-plus)
+[![Issues](https://img.shields.io/github/issues/Robocraft999/CreatePlus)](https://github.com/Robocraft999/CreatePlus/issues)
 
 Adds Helmets with Create Mod Goggle Function and Vanilla Armorstats
 
@@ -14,7 +14,7 @@ To get a local copy up and running follow these simple example steps.
 
 Download the latest JAR file from GitHub releases or from [CurseForge](https://www.curseforge.com/minecraft/mc-mods/create-plus) and drop it into your `mods` folder.
 
-### For Modcreators
+### For Modcreators (available from 0.5.1 and upwards)
 
 #### Custom goggle helmets
 You can use tags for your helmets to display the goggleinformation (in your resources folder create the file `goggle.json` at `resources/data/createplus/tags/items`)

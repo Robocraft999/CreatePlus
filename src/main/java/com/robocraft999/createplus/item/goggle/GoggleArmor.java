@@ -6,8 +6,10 @@ import com.robocraft999.createplus.CreatePlus;
 import com.robocraft999.createplus.lists.ArmorMaterialList;
 
 import com.robocraft999.createplus.lists.ItemList;
+import com.robocraft999.createplus.lists.ModuleList;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.content.contraptions.goggles.GogglesItem;
+import mekanism.api.MekanismAPI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -54,8 +56,8 @@ public class GoggleArmor extends ArmorItem{
 	public InteractionResultHolder<ItemStack> use(@Nonnull Level worldIn, Player playerIn, @Nonnull InteractionHand handIn) {
 		ItemStack itemstack = playerIn.getItemInHand(handIn);
 		EquipmentSlot equipmentslottype = Mob.getEquipmentSlotForItem(itemstack);
-		ItemStack itemstack1 = playerIn.getItemBySlot(equipmentslottype);
-		if (itemstack1.isEmpty()) {
+		ItemStack slot = playerIn.getItemBySlot(equipmentslottype);
+		if (slot.isEmpty()) {
 			playerIn.setItemSlot(equipmentslottype, itemstack.copy());
 			itemstack.setCount(0);
 			return new InteractionResultHolder<>(InteractionResult.SUCCESS, itemstack);
@@ -79,18 +81,10 @@ public class GoggleArmor extends ArmorItem{
 			}
 		}
 
-		/*
 		ModLoadedCondition mekloaded = new ModLoadedCondition("mekanism");
 		if(mekloaded.test()) {
-			if(headSlot.getItem() == MekanismItems.MEKASUIT_HELMET.asItem()) {
-				ItemMekaSuitArmor helmet = (ItemMekaSuitArmor)headSlot.getItem();
-				if(helmet.hasModule(headSlot, Modules.VISION_ENHANCEMENT_UNIT)) {//TODO add own Module
-					if(helmet.isModuleEnabled(headSlot, Modules.VISION_ENHANCEMENT_UNIT)) {//TODO add own Module
-						wearingGoggles = true;
-					}
-				}
-			}
-		}*/
+			return MekanismAPI.getModuleHelper().isEnabled(headSlot, ModuleList.GOGGLE_MODULE.get());
+		}
 
 		return false;
 	}

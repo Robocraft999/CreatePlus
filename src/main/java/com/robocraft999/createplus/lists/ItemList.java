@@ -5,8 +5,11 @@ import com.robocraft999.createplus.item.goggle.DivingGoggleArmor;
 import com.robocraft999.createplus.item.goggle.DyableGoggleArmor;
 import com.robocraft999.createplus.item.goggle.GoggleArmor;
 
+import mekanism.api.MekanismAPI;
+import mekanism.api.providers.IModuleDataProvider;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -26,8 +29,17 @@ public class ItemList {
 		goggle_netherite_helmet = ITEM_REGISTER.register("goggle_netherite_helmet", () -> new GoggleArmor(ArmorMaterialList.GOGGLE_NETHERITE, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT).fireResistant())),
 		goggle_diving_helmet = ITEM_REGISTER.register("goggle_diving_helmet", () -> new DivingGoggleArmor(ArmorMaterialList.GOGGLE_DIVING, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
 
+	public static final RegistryObject<Item>
+		goggle_unit = registerGoggleModule(new Item.Properties().tab(CreativeModeTab.TAB_SEARCH));
+
 	public static void register(IEventBus bus) {
 		ITEM_REGISTER.register(bus);
 	}
-	
+
+	private static RegistryObject<Item> registerGoggleModule(Item.Properties properties){
+		if (new ModLoadedCondition("mekanism").test()) {
+			return ITEM_REGISTER.register("module_goggle_unit", () -> MekanismAPI.getModuleHelper().createModuleItem((IModuleDataProvider) ModuleList.GOGGLE_MODULE::get, properties));
+		}
+		return null;
+	}
 }

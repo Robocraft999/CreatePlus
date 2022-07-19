@@ -91,6 +91,9 @@ repositories {
     maven {
         url "https://www.cursemaven.com"
     }
+    maven {
+        url 'https://modmaven.dev/'
+    }
 }
 
 dependencies {
@@ -99,13 +102,17 @@ dependencies {
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    implementation fg.deobf("curse.maven:create-328085:3864525")//0.5.0
+    implementation fg.deobf("curse.maven:create-328085:${create_file_number}")//0.5.0
+    //implementation fg.deobf("curse.maven:mekanism-268560:3864525")//
+
+    compileOnly "mekanism:Mekanism:${mekanism_version}:api"
+    runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}")// core
 
     //compile fg.deobf("curse.maven:mekanism-268560:3183270")
-    implementation fg.deobf("curse.maven:curios-309927:3841948")//5.0.7.1
+    implementation fg.deobf("curse.maven:curios-309927:${curios_file_number}")//5.0.7.1
 
 
-    implementation fg.deobf("curse.maven:flywheel-486392:3864518")//0.6.3
+    implementation fg.deobf("curse.maven:flywheel-486392:${flywheel_file_number}")//0.6.3
 
 }
 
