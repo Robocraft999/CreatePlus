@@ -16,6 +16,8 @@ Download the latest JAR file from GitHub releases or from [CurseForge](https://w
 
 ### For Modcreators (available from 0.5.1 and upwards)
 
+(You need to install CreatePlus to use the features of course)
+
 #### Custom goggle helmets
 You can use tags for your helmets to display the goggleinformation (in your resources folder create the file `goggle.json` at `resources/data/createplus/tags/items`)
 Here is an example:
