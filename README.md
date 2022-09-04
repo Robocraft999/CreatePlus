@@ -16,7 +16,9 @@ Download the latest JAR file from GitHub releases or from [CurseForge](https://w
 
 ### For Modcreators (available from 0.5.1 and upwards)
 
-#### Custom goggle helmets
+(You need to install CreatePlus to use the features of course)
+
+#### Viewing goggle information for your custom helmets
 You can use tags for your helmets to display the goggleinformation (in your resources folder create the file `goggle.json` at `resources/data/createplus/tags/items`)
 Here is an example:
 
@@ -29,7 +31,7 @@ Here is an example:
 }
 ```
 
-#### Viewing goggle information for your custom helmets
+#### Custom goggle helmet recipe
 
 If you have a normal modded helmet e.g. copper and want to have a goggle helmet of it too
 
