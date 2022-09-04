@@ -29,7 +29,7 @@ description='''
 [[dependencies.createplus]]
     modId="create"
     mandatory=true
-    versionRange="[v0.5.0,)"
+    versionRange="[v0.5.0d,)"
     ordering="AFTER"
     side="BOTH"
    

@@ -8,6 +8,8 @@ import com.robocraft999.createplus.lists.ItemList;
 import com.robocraft999.createplus.lists.RecipeTypeList;
 
 import com.simibubi.create.AllItems;
+import com.simibubi.create.foundation.utility.CreateRegistry;
+import com.simibubi.create.foundation.utility.RegisteredObjects;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.inventory.CraftingContainer;

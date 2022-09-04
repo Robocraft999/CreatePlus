@@ -25,7 +25,7 @@ public class ClientEvents {
 	private static final String itemPrefix = "item." + Create.ID;
 	private static final String blockPrefix = "block." + Create.ID;
 	public  static int timeLeft = 0;
-	
+	/*
 	public static void renderRemainingAirOverlay(PoseStack ms, BufferSource buffers, int light, int overlay, float pt) {
 		LocalPlayer player = Minecraft.getInstance().player;
 		if (player == null)
@@ -60,5 +60,5 @@ public class ClientEvents {
 		buffers.endBatch();
 
 		ms.popPose();
-	}
+	}*/
 }
