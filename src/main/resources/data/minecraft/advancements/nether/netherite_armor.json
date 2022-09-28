@@ -22,16 +22,51 @@
       "conditions": {
         "items": [
           {
-            "tag": "createplus:netherite_helmets"
+            "items": [
+              "minecraft:netherite_helmet"
+            ]
           },
           {
-            "item": "minecraft:netherite_chestplate"
+            "items": [
+              "minecraft:netherite_chestplate"
+            ]
           },
           {
-            "item": "minecraft:netherite_leggings"
+            "items": [
+              "minecraft:netherite_leggings"
+            ]
           },
           {
-            "item": "minecraft:netherite_boots"
+            "items": [
+              "minecraft:netherite_boots"
+            ]
+          }
+        ]
+      }
+    },
+    "goggle_netherite_armor": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "createplus:goggle_netherite_helmet"
+            ]
+          },
+          {
+            "items": [
+              "minecraft:netherite_chestplate"
+            ]
+          },
+          {
+            "items": [
+              "minecraft:netherite_leggings"
+            ]
+          },
+          {
+            "items": [
+              "minecraft:netherite_boots"
+            ]
           }
         ]
       }
@@ -39,7 +74,8 @@
   },
   "requirements": [
     [
-      "netherite_armor"
+      "netherite_armor",
+      "goggle_netherite_armor"
     ]
   ],
   "rewards": {
