@@ -35,6 +35,7 @@ Here is an example:
 
 If you have a normal modded helmet e.g. copper and want to have a goggle helmet of it too
 
+Option 1:
 ```
 File: your_helmet_id.json (at `resources/data/yourmodid/recipes`):
 
@@ -52,4 +53,6 @@ File: your_helmet_id.json (at `resources/data/yourmodid/recipes`):
 	"result":{"item":"yourmodid:your_goggle_helmet_id"}
 }
 ```
+Option 2:
 
+use the CreatePlusRecipeBuilder in combination with a RecipeDataProvider
