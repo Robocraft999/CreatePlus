@@ -5,13 +5,16 @@
       "item": "createplus:goggle_diving_helmet"
     }
   ],
+  "processingTime": 150,
   "results": [
     {
-      "item": "create:diving_helmet"
+      "item": "create:diving_helmet",
+      "nbt": {
+        "Damage": 0
+      }
     },
     {
       "item": "create:goggles"
     }
-  ],
-  "processingTime": 150
+  ]
 }

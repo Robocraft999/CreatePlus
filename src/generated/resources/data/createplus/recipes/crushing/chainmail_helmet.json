@@ -1,0 +1,20 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "createplus:goggle_chainmail_helmet"
+    }
+  ],
+  "processingTime": 150,
+  "results": [
+    {
+      "item": "minecraft:chainmail_helmet",
+      "nbt": {
+        "Damage": 0
+      }
+    },
+    {
+      "item": "create:goggles"
+    }
+  ]
+}
