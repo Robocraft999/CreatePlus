@@ -11,6 +11,9 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.config.ModConfig.Type;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,10 +21,8 @@ import com.robocraft999.createplus.lists.ItemList;
 import com.robocraft999.createplus.lists.RecipeTypeList;
 
 import net.minecraft.world.item.DyeableLeatherItem;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -29,6 +30,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import top.theillusivec4.curios.api.SlotTypeMessage;
 
 @Mod(CreatePlus.MODID)
 public class CreatePlus {
@@ -47,7 +49,10 @@ public class CreatePlus {
 
         if(ModCompat.MEKANISM.isLoaded())
 			ModuleList.register(modEventBus);
-		
+
+		ModLoadingContext.get().registerConfig(Type.COMMON, CPConfig.commonSpec);
+		ModLoadingContext.get().registerConfig(Type.CLIENT, CPConfig.clientSpec);
+
 		modEventBus.addListener(this::setup);
 		modEventBus.addListener(this::clientRegistries);
 		modEventBus.addListener(this::gatherData);
@@ -88,8 +93,10 @@ public class CreatePlus {
 		@SubscribeEvent
 		public static void enqueueIMC(final InterModEnqueueEvent event) {
 			if(ModCompat.CURIOS.isLoaded()) {
-				/*InterModComms.sendTo(MODID, "curios", SlotTypeMessage.REGISTER_TYPE,
-						() -> new SlotTypeMessage.Builder("createplus.backtank_slot").size(1).icon(new ResourceLocation(MODID, "item/goggle_slot_icon")).build());*/
+				if(CPConfig.COMMON.useCustomCurioBacktankSlot.get()){
+					InterModComms.sendTo(MODID, "curios", SlotTypeMessage.REGISTER_TYPE,
+							() -> new SlotTypeMessage.Builder("createplus.backtank_slot").size(1).icon(new ResourceLocation(MODID, "item/backtank_slot_icon")).build());
+				}
 
 			}
 			if(ModCompat.MEKANISM.isLoaded()){
