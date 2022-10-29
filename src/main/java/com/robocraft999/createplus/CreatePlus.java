@@ -37,7 +37,7 @@ public class CreatePlus {
 	
 	public static CreatePlus INSTANCE;
 	public static final String MODID = "createplus";
-	private static final Logger logger = LogManager.getLogger(MODID);
+	public static final Logger logger = LogManager.getLogger(MODID);
 	
 	public CreatePlus() {
 		INSTANCE = this;
