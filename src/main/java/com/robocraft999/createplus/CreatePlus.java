@@ -29,7 +29,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-@Mod("createplus")
+@Mod(CreatePlus.MODID)
 public class CreatePlus {
 	
 	public static CreatePlus INSTANCE;
