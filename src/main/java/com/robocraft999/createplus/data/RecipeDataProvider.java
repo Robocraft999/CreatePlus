@@ -5,13 +5,20 @@ import com.robocraft999.createplus.lists.ItemList;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.content.contraptions.components.crusher.CrushingRecipe;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipeBuilder;
+import mekanism.api.MekanismAPI;
+import mekanism.api.MekanismIMC;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagManager;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.crafting.ConditionalRecipe;
+import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
 
 import java.util.function.Consumer;
 
@@ -51,4 +58,17 @@ public class RecipeDataProvider extends RecipeProvider {
                 .duration(150)
                 .build(writer);
     }
+
+    /*private void mekModule(ItemLike module, ItemLike input, Consumer<FinishedRecipe> writer){
+        //ConditionalRecipe.builder().addCondition(new ModLoadedCondition("mekanism")).addRecipe(writer.);
+        ShapedRecipeBuilder.shaped(module)
+                .pattern("A#A")
+                .pattern("ABA")
+                .pattern("HHH")
+                .define('A', )
+                .define('#', input)
+                //.define('B', )
+                //.define('H', )
+                .save(writer);
+    }*/
 }
