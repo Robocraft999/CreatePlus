@@ -1,12 +1,13 @@
 package com.robocraft999.createplus;
 
 import com.robocraft999.createplus.data.RecipeDataProvider;
+import com.robocraft999.createplus.item.goggle.GoggleArmorLayer;
 import com.robocraft999.createplus.lists.ModCompat;
 import com.robocraft999.createplus.lists.ModuleList;
 import mekanism.api.MekanismIMC;
-import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.world.item.Items;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -52,6 +53,7 @@ public class CreatePlus {
 		modEventBus.addListener(this::gatherData);
 		
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> modEventBus.addListener(this::registerItemColors));
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> modEventBus.addListener(this::onLayerRegister));
 		
 		MinecraftForge.EVENT_BUS.register(this);
 	}
@@ -67,6 +69,10 @@ public class CreatePlus {
 	
 	private void registerItemColors(final RegisterColorHandlersEvent.Item event){
 	    event.getItemColors().register((stack, color) -> color > 0 ? -1 : ((DyeableLeatherItem)stack.getItem()).getColor(stack), ItemList.goggle_leather_helmet.get());
+	}
+
+	private void onLayerRegister(final EntityRenderersEvent.RegisterLayerDefinitions event) {
+		event.registerLayerDefinition(GoggleArmorLayer.LAYER, () -> LayerDefinition.create(GoggleArmorLayer.mesh(), 1, 1));
 	}
 
 	private void gatherData(GatherDataEvent event){
