@@ -1,0 +1,15 @@
+{
+	"item.createplus.goggle_chainmail_helmet":"사슬 고글 투구",
+	"item.createplus.goggle_diamond_helmet":"다이아몬드 고글 투구",
+	"item.createplus.goggle_golden_helmet":"금 고글 투구",
+	"item.createplus.goggle_iron_helmet":"철 고글 투구",
+	"item.createplus.goggle_leather_helmet":"가죽 고글 모자",
+	"item.createplus.goggle_turtle_helmet":"거북 고글 등딱지",
+	"item.createplus.goggle_netherite_helmet":"네더라이트 고글 투구",
+	"item.createplus.goggle_diving_helmet":"고글 다이빙 헬멧",
+
+	"module.createplus.goggle_unit": "고글 유닛",
+	"description.createplus.goggle_unit": "Create 장치에 대한 고급 정보를 제공합니다",
+
+	"curios.identifier.createplus.backtank_slot":"산소통"
+}
