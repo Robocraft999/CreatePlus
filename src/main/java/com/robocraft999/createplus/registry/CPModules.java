@@ -1,4 +1,4 @@
-package com.robocraft999.createplus.lists;
+package com.robocraft999.createplus.registry;
 
 import com.robocraft999.createplus.CreatePlus;
 import com.robocraft999.createplus.item.goggle.module.GoggleModule;

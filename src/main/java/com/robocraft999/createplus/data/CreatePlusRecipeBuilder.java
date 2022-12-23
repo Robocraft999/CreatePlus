@@ -3,7 +3,7 @@ package com.robocraft999.createplus.data;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.robocraft999.createplus.lists.RecipeTypeList;
+import com.robocraft999.createplus.registry.CPRecipeTypes;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.CriterionTriggerInstance;
@@ -131,7 +131,7 @@ public class CreatePlusRecipeBuilder implements RecipeBuilder {
 
         @Override
         public RecipeSerializer<?> getType() {
-            return RecipeTypeList.CRAFTING_NBT.get();
+            return CPRecipeTypes.CRAFTING_NBT.get();
         }
     }
 }

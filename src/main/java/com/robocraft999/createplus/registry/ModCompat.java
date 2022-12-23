@@ -1,4 +1,4 @@
-package com.robocraft999.createplus.lists;
+package com.robocraft999.createplus.registry;
 
 import com.simibubi.create.foundation.utility.Lang;
 import net.minecraftforge.fml.ModList;

@@ -6,8 +6,7 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import com.google.gson.JsonObject;
-import com.robocraft999.createplus.CreatePlus;
-import com.robocraft999.createplus.lists.RecipeTypeList;
+import com.robocraft999.createplus.registry.CPRecipeTypes;
 
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -73,7 +72,7 @@ public record NBTCraftingRecipe(ShapedRecipe recipe) implements CraftingRecipe {
 	@Nonnull
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return RecipeTypeList.CRAFTING_NBT.get();
+		return CPRecipeTypes.CRAFTING_NBT.get();
 	}
 
 	@Override

@@ -3,11 +3,10 @@ package com.robocraft999.createplus.item.goggle;
 import javax.annotation.Nonnull;
 
 import com.robocraft999.createplus.CreatePlus;
-import com.robocraft999.createplus.lists.ArmorMaterialList;
+import com.robocraft999.createplus.registry.CPArmorMaterials;
 
-import com.robocraft999.createplus.lists.ModCompat;
-import com.robocraft999.createplus.lists.ModuleList;
-import com.simibubi.create.content.contraptions.goggles.GogglesItem;
+import com.robocraft999.createplus.registry.ModCompat;
+import com.robocraft999.createplus.registry.CPModules;
 import mekanism.api.MekanismAPI;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.*;
@@ -53,7 +52,7 @@ public class GoggleArmor extends ArmorItem{
 
 	@Override
   	public boolean makesPiglinsNeutral(@Nonnull ItemStack stack, @Nonnull LivingEntity wearer) {
-		return getMaterial() == ArmorMaterialList.GOGGLE_GOLD;
+		return getMaterial() == CPArmorMaterials.GOGGLE_GOLD;
 	}
 
 	public boolean isGoggleHelmet(Player player) {
@@ -67,7 +66,7 @@ public class GoggleArmor extends ArmorItem{
 		}
 
 		if(ModCompat.MEKANISM.isLoaded()) {
-			return MekanismAPI.getModuleHelper().isEnabled(headSlot, ModuleList.GOGGLE_MODULE.get());
+			return MekanismAPI.getModuleHelper().isEnabled(headSlot, CPModules.GOGGLE_MODULE.get());
 		}
 
 		return false;

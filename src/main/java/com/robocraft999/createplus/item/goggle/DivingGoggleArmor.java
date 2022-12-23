@@ -1,6 +1,6 @@
 package com.robocraft999.createplus.item.goggle;
 
-import com.robocraft999.createplus.lists.ItemList;
+import com.robocraft999.createplus.registry.CPItems;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.content.curiosities.armor.BackTankUtil;
 

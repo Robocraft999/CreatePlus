@@ -2,8 +2,8 @@ package com.robocraft999.createplus;
 
 import com.robocraft999.createplus.data.RecipeDataProvider;
 import com.robocraft999.createplus.item.goggle.GoggleArmorLayer;
-import com.robocraft999.createplus.lists.ModCompat;
-import com.robocraft999.createplus.lists.ModuleList;
+import com.robocraft999.createplus.registry.ModCompat;
+import com.robocraft999.createplus.registry.CPModules;
 import mekanism.api.MekanismIMC;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.resources.ResourceLocation;
@@ -17,8 +17,8 @@ import net.minecraftforge.fml.config.ModConfig.Type;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.robocraft999.createplus.lists.ItemList;
-import com.robocraft999.createplus.lists.RecipeTypeList;
+import com.robocraft999.createplus.registry.CPItems;
+import com.robocraft999.createplus.registry.CPRecipeTypes;
 
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraftforge.api.distmarker.Dist;
@@ -44,11 +44,11 @@ public class CreatePlus {
 
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-		ItemList.register(modEventBus);
-		RecipeTypeList.register(modEventBus);
+		CPItems.register(modEventBus);
+		CPRecipeTypes.register(modEventBus);
 
         if(ModCompat.MEKANISM.isLoaded())
-			ModuleList.register(modEventBus);
+			CPModules.register(modEventBus);
 
 		ModLoadingContext.get().registerConfig(Type.COMMON, CPConfig.commonSpec);
 		ModLoadingContext.get().registerConfig(Type.CLIENT, CPConfig.clientSpec);
@@ -73,7 +73,7 @@ public class CreatePlus {
 	}
 	
 	private void registerItemColors(final RegisterColorHandlersEvent.Item event){
-	    event.getItemColors().register((stack, color) -> color > 0 ? -1 : ((DyeableLeatherItem)stack.getItem()).getColor(stack), ItemList.goggle_leather_helmet.get());
+	    event.getItemColors().register((stack, color) -> color > 0 ? -1 : ((DyeableLeatherItem)stack.getItem()).getColor(stack), CPItems.goggle_leather_helmet.get());
 	}
 
 	private void onLayerRegister(final EntityRenderersEvent.RegisterLayerDefinitions event) {
@@ -100,7 +100,7 @@ public class CreatePlus {
 
 			}
 			if(ModCompat.MEKANISM.isLoaded()){
-				MekanismIMC.addMekaSuitHelmetModules(ModuleList.GOGGLE_MODULE.get());
+				MekanismIMC.addMekaSuitHelmetModules(CPModules.GOGGLE_MODULE.get());
 			}
 		}
 	}
