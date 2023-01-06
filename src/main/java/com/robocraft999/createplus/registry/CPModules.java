@@ -13,7 +13,7 @@ public class CPModules {
     public static final DeferredRegister<ModuleData<?>> MODULES = DeferredRegister.create(MekanismAPI.moduleRegistryName(), CreatePlus.MODID);
 
     public static final RegistryObject<ModuleData<?>> GOGGLE_MODULE = MODULES.register("goggle_unit",
-            () -> new ModuleData<>(ModuleData.ModuleDataBuilder.custom(GoggleModule::new, CPItems.goggle_unit::get))
+            () -> new ModuleData<>(ModuleData.ModuleDataBuilder.custom(GoggleModule::new, CPItems.GOGGLE_UNIT::get))
     );
 
 

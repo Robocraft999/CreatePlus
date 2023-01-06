@@ -2,8 +2,8 @@ package com.robocraft999.createplus;
 
 import com.robocraft999.createplus.data.RecipeDataProvider;
 import com.robocraft999.createplus.item.goggle.GoggleArmorLayer;
-import com.robocraft999.createplus.registry.ModCompat;
-import com.robocraft999.createplus.registry.CPModules;
+import com.robocraft999.createplus.registry.*;
+import com.simibubi.create.foundation.data.CreateRegistrate;
 import mekanism.api.MekanismIMC;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.resources.ResourceLocation;
@@ -38,13 +38,18 @@ public class CreatePlus {
 	public static CreatePlus INSTANCE;
 	public static final String MODID = "createplus";
 	public static final Logger logger = LogManager.getLogger(MODID);
+	public static final CreateRegistrate REGISTRATE = CreateRegistrate.create(MODID);
 	
 	public CreatePlus() {
 		INSTANCE = this;
 
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        REGISTRATE.registerEventListeners(modEventBus);
 
-		CPItems.register(modEventBus);
+		CPBlocks.register();
+		CPTileEntities.register();
+		CPItems.register();
+
 		CPRecipeTypes.register(modEventBus);
 
         if(ModCompat.MEKANISM.isLoaded())
