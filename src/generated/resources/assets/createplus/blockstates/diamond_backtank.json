@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=east,waterlogged=false": {
+      "model": "createplus:block/diamond_backtank/block",
+      "y": 90
+    },
+    "facing=east,waterlogged=true": {
+      "model": "createplus:block/diamond_backtank/block",
+      "y": 90
+    },
+    "facing=north,waterlogged=false": {
+      "model": "createplus:block/diamond_backtank/block"
+    },
+    "facing=north,waterlogged=true": {
+      "model": "createplus:block/diamond_backtank/block"
+    },
+    "facing=south,waterlogged=false": {
+      "model": "createplus:block/diamond_backtank/block",
+      "y": 180
+    },
+    "facing=south,waterlogged=true": {
+      "model": "createplus:block/diamond_backtank/block",
+      "y": 180
+    },
+    "facing=west,waterlogged=false": {
+      "model": "createplus:block/diamond_backtank/block",
+      "y": 270
+    },
+    "facing=west,waterlogged=true": {
+      "model": "createplus:block/diamond_backtank/block",
+      "y": 270
+    }
+  }
+}

@@ -4,6 +4,7 @@ import static com.robocraft999.createplus.CreatePlus.REGISTRATE;
 
 import com.robocraft999.createplus.item.backtank.ArmoredBacktankBlock;
 import com.robocraft999.createplus.item.backtank.BacktankArmor;
+import com.robocraft999.createplus.item.backtank.DyableBacktankArmor;
 import com.robocraft999.createplus.item.goggle.DivingGoggleArmor;
 import com.robocraft999.createplus.item.goggle.DyableGoggleArmor;
 import com.robocraft999.createplus.item.goggle.GoggleArmor;
@@ -52,30 +53,29 @@ public class CPItems {
 					.register();
 
 	//-------------------Backtanks-------------------
-	public static final ItemEntry<BacktankArmor.ArmoredBacktankBlockItem> CHAINMAIL_BACKTANK_PLACEABLE = REGISTRATE
-			.item("chainmail_backtank_placeable", p -> new BacktankArmor.ArmoredBacktankBlockItem(CPBlocks.CHAINMAIL_BACKTANK_BLOCK.get(), p))
-			.model((c, p) -> p.withExistingParent(c.getName(), p.mcLoc("item/barrier")))
-			.register();
-	public static final ItemEntry<BacktankArmor> CHAINMAIL_BACKTANK = REGISTRATE
-			.item("chainmail_backtank", p -> new BacktankArmor(ArmorMaterials.CHAIN, "chainmail_backtank_placable", p))
-			.model(AssetLookup.customGenericItemModel("_", "item"))
-			.tag(AllTags.AllItemTags.PRESSURIZED_AIR_SOURCES.tag)
-			.register();
+	public static final ItemEntry<BacktankArmor.ArmoredBacktankBlockItem>
+			CHAINMAIL_BACKTANK_PLACEABLE = backtank_placable("chainmail_backtank", () -> CPBlocks.CHAINMAIL_BACKTANK_BLOCK),
+			DIAMOND_BACKTANK_PLACABLE = backtank_placable("diamond_backtank", () -> CPBlocks.DIAMOND_BACKTANK_BLOCK),
+			GOLDEN_BACKTANK_PLACEABLE = backtank_placable("golden_backtank", () -> CPBlocks.GOLDEN_BACKTANK_BLOCK),
+			IRON_BACKTANK_PLACEABLE = backtank_placable("iron_backtank", () -> CPBlocks.IRON_BACKTANK_BLOCK),
+			TURTLE_BACKTANK_PLACEABLE = backtank_placable("turtle_backtank", () -> CPBlocks.TURTLE_BACKTANK_BLOCK),
+			NETHERITE_BACKTANK_PLACABLE = backtank_placable("netherite_backtank", () -> CPBlocks.NETHERITE_BACKTANK_BLOCK),
+			LEATHER_BACKTANK_PLACEABLE = backtank_placable("leather_backtank", () -> CPBlocks.LEATHER_BACKTANK_BLOCK);
 
-	public static final ItemEntry<BacktankArmor.ArmoredBacktankBlockItem> DIAMOND_BACKTANK_PLACABLE = /*REGISTRATE
-			.item("diamond_backtank_placable", p -> new BacktankArmor.ArmoredBacktankBlockItem(CPBlocks.DIAMOND_BACKTANK_BLOCK.get(), p))
-			.model((c, p) -> p.withExistingParent(c.getName(), p.mcLoc("item/barrier")))
-			.register();*/
-			backtank_placable("diamond_backtank", () -> CPBlocks.DIAMOND_BACKTANK_BLOCK);
-
-	public static final ItemEntry<BacktankArmor> DIAMOND_BACKTANK = /*REGISTRATE
-			.item("diamond_backtank", p -> new BacktankArmor(ArmorMaterials.DIAMOND, "diamond_backtank_placable", p))
-			.model(AssetLookup.customGenericItemModel("_", "item"))
-			.tag(AllTags.AllItemTags.PRESSURIZED_AIR_SOURCES.tag)
-			//.onRegister(item -> CPBlocks.DIAMOND_BACKTANK_BLOCK.get().setType(CPItems.DIAMOND_BACKTANK, CPTileEntities.DIAMOND_BACKTANK_TILE))
-			.register();*/
-			//backtank("diamond_backtank", ArmorMaterials.DIAMOND, CPBlocks.DIAMOND_BACKTANK_BLOCK, CPItems.DIAMOND_BACKTANK, CPTileEntities.DIAMOND_BACKTANK_TILE, DIAMOND_BACKTANK_PLACABLE);
-			backtank2("diamond_backtank", ArmorMaterials.DIAMOND);
+	public static final ItemEntry<BacktankArmor>
+			CHAINMAIL_BACKTANK = backtank("chainmail_backtank", ArmorMaterials.CHAIN),
+			DIAMOND_BACKTANK = backtank("diamond_backtank", ArmorMaterials.DIAMOND),
+			GOLDEN_BACKTANK = backtank("golden_backtank", ArmorMaterials.GOLD),
+			IRON_BACKTANK = backtank("iron_backtank", ArmorMaterials.IRON),
+			TURTLE_BACKTANK = backtank("turtle_backtank", ArmorMaterials.TURTLE),
+			NETHERITE_BACKTANK = backtank("netherite_backtank", ArmorMaterials.NETHERITE);
+	public static final ItemEntry<DyableBacktankArmor>
+			LEATHER_BACKTANK = REGISTRATE
+				.item("leather_backtank", p -> new DyableBacktankArmor(ArmorMaterials.LEATHER, "leather_backtank_placeable", p))
+				.model(AssetLookup.customGenericItemModel("_", "item"))
+				.color(() -> DyableGoggleArmor.DyableGoggleArmorColor::new)
+				.tag(AllTags.AllItemTags.PRESSURIZED_AIR_SOURCES.tag)
+				.register();
 
 
     public static final ItemEntry<Item>
@@ -105,17 +105,7 @@ public class CPItems {
                 .register();
     }
 
-	/*private static ItemEntry<BacktankArmor> backtank(String name, ArmorMaterial material, BlockEntry<ArmoredBacktankBlock> block, ItemEntry<BacktankArmor> type,
-													 BlockEntityEntry<CopperBacktankTileEntity> tile, ItemEntry<BacktankArmor.ArmoredBacktankBlockItem> placable){
-		return REGISTRATE
-				.item(name, p -> new BacktankArmor(material, placable, p))
-				.model(AssetLookup.customGenericItemModel("_", "item"))
-				.tag(AllTags.AllItemTags.PRESSURIZED_AIR_SOURCES.tag)
-				.onRegister(item -> block.get().setType(type, tile))
-				.register();
-	}*/
-
-	private static ItemEntry<BacktankArmor> backtank2(String name, ArmorMaterial material){
+	private static ItemEntry<BacktankArmor> backtank(String name, ArmorMaterial material){
 		return REGISTRATE
 				.item(name, p -> new BacktankArmor(material, name + "_placeable", p))
 				.model(AssetLookup.customGenericItemModel("_", "item"))

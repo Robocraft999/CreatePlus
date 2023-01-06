@@ -12,7 +12,12 @@ public class CPTileEntities {
 
     public static final BlockEntityEntry<CopperBacktankTileEntity>
             CHAINMAIL_BACKTANK_TILE = backtankTile("chainmail_backtank"),
-            DIAMOND_BACKTANK_TILE = backtankTile("diamond_backtank");
+            DIAMOND_BACKTANK_TILE = backtankTile("diamond_backtank"),
+            GOLDEN_BACKTANK_TILE = backtankTile("golden_backtank"),
+            IRON_BACKTANK_TILE = backtankTile("iron_backtank"),
+            TURTLE_BACKTANK_TILE = backtankTile("turtle_backtank"),
+            NETHERITE_BACKTANK_TILE = backtankTile("netherite_backtank"),
+            LEATHER_BACKTANK_TILE = backtankTile("leather_backtank");
 
 
     private static BlockEntityEntry<CopperBacktankTileEntity> backtankTile(String name){
