@@ -3,7 +3,6 @@ package com.robocraft999.createplus.item.goggle;
 import javax.annotation.Nonnull;
 
 import com.robocraft999.createplus.CreatePlus;
-import com.robocraft999.createplus.registry.CPArmorMaterials;
 
 import com.robocraft999.createplus.registry.ModCompat;
 import com.robocraft999.createplus.registry.CPModules;
@@ -24,11 +23,10 @@ import java.util.List;
 
 public class GoggleArmor extends ArmorItem{
 
-	private final String TAG_NAME = "goggle";
+	private static final String TAG_NAME = "goggle";
 	public GoggleArmor(ArmorMaterial material, Properties properties) {
 		super(material, EquipmentSlot.HEAD, properties);
 		DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
-		GogglesItem.addIsWearingPredicate(this::isGoggleHelmet); //TODO move somewhere where its not called by each new instance
 	}
 
 	@Override
@@ -52,10 +50,10 @@ public class GoggleArmor extends ArmorItem{
 
 	@Override
   	public boolean makesPiglinsNeutral(@Nonnull ItemStack stack, @Nonnull LivingEntity wearer) {
-		return getMaterial() == CPArmorMaterials.GOGGLE_GOLD;
+		return getMaterial() == ArmorMaterials.GOLD;
 	}
 
-	public boolean isGoggleHelmet(Player player) {
+	public static boolean isGoggleHelmet(Player player) {
 		ItemStack headSlot = player.getItemBySlot(EquipmentSlot.HEAD);
 
 		List<TagKey<Item>> tags = headSlot.getTags().filter(tag -> tag.location().getNamespace().equals(CreatePlus.MODID)).toList();

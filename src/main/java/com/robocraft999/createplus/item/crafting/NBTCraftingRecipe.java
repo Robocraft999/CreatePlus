@@ -1,9 +1,7 @@
 package com.robocraft999.createplus.item.crafting;
 
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 import com.google.gson.JsonObject;
 import com.robocraft999.createplus.registry.CPRecipeTypes;

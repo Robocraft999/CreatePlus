@@ -8,7 +8,6 @@ import mekanism.api.MekanismIMC;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.InterModComms;
@@ -17,10 +16,6 @@ import net.minecraftforge.fml.config.ModConfig.Type;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.robocraft999.createplus.registry.CPItems;
-import com.robocraft999.createplus.registry.CPRecipeTypes;
-
-import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -61,8 +56,7 @@ public class CreatePlus {
 		modEventBus.addListener(this::setup);
 		modEventBus.addListener(this::clientRegistries);
 		modEventBus.addListener(this::gatherData);
-		
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> modEventBus.addListener(this::registerItemColors));
+
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> modEventBus.addListener(this::onLayerRegister));
 		
 		MinecraftForge.EVENT_BUS.register(this);
@@ -75,10 +69,6 @@ public class CreatePlus {
 	
 	private void clientRegistries(final FMLClientSetupEvent event) {
 		logger.info("Create Plus Client Setup");
-	}
-	
-	private void registerItemColors(final RegisterColorHandlersEvent.Item event){
-	    event.getItemColors().register((stack, color) -> color > 0 ? -1 : ((DyeableLeatherItem)stack.getItem()).getColor(stack), CPItems.goggle_leather_helmet.get());
 	}
 
 	private void onLayerRegister(final EntityRenderersEvent.RegisterLayerDefinitions event) {
