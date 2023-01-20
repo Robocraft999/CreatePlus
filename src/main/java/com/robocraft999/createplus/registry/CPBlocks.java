@@ -33,7 +33,6 @@ public class CPBlocks {
             DIAMOND_BACKTANK_BLOCK = backtankBlock("diamond_backtank", CPItems.DIAMOND_BACKTANK),
             GOLDEN_BACKTANK_BLOCK = backtankBlock("golden_backtank", CPItems.GOLDEN_BACKTANK),
             IRON_BACKTANK_BLOCK = backtankBlock("iron_backtank", CPItems.IRON_BACKTANK),
-            TURTLE_BACKTANK_BLOCK = backtankBlock("turtle_backtank", CPItems.TURTLE_BACKTANK),
             NETHERITE_BACKTANK_BLOCK = backtankBlock("netherite_backtank", CPItems.NETHERITE_BACKTANK),
             LEATHER_BACKTANK_BLOCK = backtankBlock("leather_backtank", CPItems.LEATHER_BACKTANK);
 

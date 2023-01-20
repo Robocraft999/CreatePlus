@@ -58,7 +58,6 @@ public class CPItems {
 			DIAMOND_BACKTANK_PLACABLE = backtank_placable("diamond_backtank", () -> CPBlocks.DIAMOND_BACKTANK_BLOCK),
 			GOLDEN_BACKTANK_PLACEABLE = backtank_placable("golden_backtank", () -> CPBlocks.GOLDEN_BACKTANK_BLOCK),
 			IRON_BACKTANK_PLACEABLE = backtank_placable("iron_backtank", () -> CPBlocks.IRON_BACKTANK_BLOCK),
-			TURTLE_BACKTANK_PLACEABLE = backtank_placable("turtle_backtank", () -> CPBlocks.TURTLE_BACKTANK_BLOCK),
 			NETHERITE_BACKTANK_PLACABLE = backtank_placable("netherite_backtank", () -> CPBlocks.NETHERITE_BACKTANK_BLOCK),
 			LEATHER_BACKTANK_PLACEABLE = backtank_placable("leather_backtank", () -> CPBlocks.LEATHER_BACKTANK_BLOCK);
 
@@ -67,7 +66,6 @@ public class CPItems {
 			DIAMOND_BACKTANK = backtank("diamond_backtank", ArmorMaterials.DIAMOND),
 			GOLDEN_BACKTANK = backtank("golden_backtank", ArmorMaterials.GOLD),
 			IRON_BACKTANK = backtank("iron_backtank", ArmorMaterials.IRON),
-			TURTLE_BACKTANK = backtank("turtle_backtank", ArmorMaterials.TURTLE),
 			NETHERITE_BACKTANK = backtank("netherite_backtank", ArmorMaterials.NETHERITE);
 	public static final ItemEntry<DyableBacktankArmor>
 			LEATHER_BACKTANK = REGISTRATE
