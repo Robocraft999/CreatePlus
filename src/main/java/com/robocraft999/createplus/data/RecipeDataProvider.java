@@ -30,6 +30,13 @@ public class RecipeDataProvider extends RecipeProvider {
         helmetRecipe(CPItems.TURTLE_GOGGLE_HELMET.get(), Items.TURTLE_HELMET, consumer);
         helmetRecipe(CPItems.NETHERITE_GOGGLE_HELMET.get(), Items.NETHERITE_HELMET, consumer);
         helmetRecipe(CPItems.DIVING_GOGGLE_HELMET.get(), AllItems.DIVING_HELMET.get(), consumer);
+
+        backtankRecipe(CPItems.CHAINMAIL_BACKTANK.get(), Items.CHAINMAIL_CHESTPLATE, consumer);
+        backtankRecipe(CPItems.DIAMOND_BACKTANK.get(), Items.DIAMOND_CHESTPLATE, consumer);
+        backtankRecipe(CPItems.GOLDEN_BACKTANK.get(), Items.GOLDEN_CHESTPLATE, consumer);
+        backtankRecipe(CPItems.IRON_BACKTANK.get(), Items.IRON_CHESTPLATE, consumer);
+        backtankRecipe(CPItems.LEATHER_BACKTANK.get(), Items.LEATHER_CHESTPLATE, consumer);
+        backtankRecipe(CPItems.NETHERITE_BACKTANK.get(), Items.NETHERITE_CHESTPLATE, consumer);
     }
 
     private void helmetRecipe(ItemLike result, ItemLike helmet, Consumer<FinishedRecipe> writer){
@@ -39,15 +46,29 @@ public class RecipeDataProvider extends RecipeProvider {
                 .define('g', AllItems.GOGGLES.get())
                 .unlockedBy("has_helmet", has(helmet))
                 .save(writer);
-        crushing(result, helmet, writer);
+        crushingGoggle(result, helmet, writer);
     }
 
-    private void crushing(ItemLike result, ItemLike input, Consumer<FinishedRecipe> writer){
+    private void backtankRecipe(ItemLike result, ItemLike chestplate, Consumer<FinishedRecipe> writer){
+        CreatePlusRecipeBuilder.shaped(result)
+                .pattern("cb")
+                .define('c', chestplate)
+                .define('b', AllItems.COPPER_BACKTANK.get())
+                .unlockedBy("has_backtank", has(chestplate))
+                .save(writer);
+        crushing(result, chestplate, AllItems.COPPER_BACKTANK.get(), writer);
+    }
+
+    private void crushingGoggle(ItemLike input, ItemLike output, Consumer<FinishedRecipe> writer){
+        crushing(input, output, AllItems.GOGGLES.get(), writer);
+    }
+
+    private void crushing(ItemLike input, ItemLike output1, ItemLike output2, Consumer<FinishedRecipe> writer){
         ProcessingRecipeBuilder<CrushingRecipe> crushingRecipeBuilder =
-                new ProcessingRecipeBuilder<>(CrushingRecipe::new, new ResourceLocation(CreatePlus.MODID, input.asItem().toString()));
-        crushingRecipeBuilder.withItemIngredients(Ingredient.of(result))
-                .output(input)
-                .output(AllItems.GOGGLES.get())
+                new ProcessingRecipeBuilder<>(CrushingRecipe::new, new ResourceLocation(CreatePlus.MODID, output1.asItem().toString()));
+        crushingRecipeBuilder.withItemIngredients(Ingredient.of(input))
+                .output(output1)
+                .output(output2)
                 .duration(150)
                 .build(writer);
     }

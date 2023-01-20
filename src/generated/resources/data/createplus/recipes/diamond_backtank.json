@@ -1,0 +1,17 @@
+{
+  "type": "createplus:crafting_nbt",
+  "key": {
+    "b": {
+      "item": "create:copper_backtank"
+    },
+    "c": {
+      "item": "minecraft:diamond_chestplate"
+    }
+  },
+  "pattern": [
+    "cb"
+  ],
+  "result": {
+    "item": "createplus:diamond_backtank"
+  }
+}
