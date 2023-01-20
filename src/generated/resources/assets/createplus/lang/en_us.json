@@ -5,7 +5,7 @@
   "block.createplus.iron_backtank": "Iron Backtank",
   "block.createplus.leather_backtank": "Leather Backtank",
   "block.createplus.netherite_backtank": "Netherite Backtank",
-  "block.createplus.turtle_backtank": "Turtle Backtank",
+  "description.createplus.goggle_unit": "Grants advanced information about create contraptions",
   "item.createplus.chainmail_backtank": "Chainmail Backtank",
   "item.createplus.chainmail_backtank_placeable": "Chainmail Backtank Placeable",
   "item.createplus.diamond_backtank": "Diamond Backtank",
@@ -26,7 +26,5 @@
   "item.createplus.leather_backtank_placeable": "Leather Backtank Placeable",
   "item.createplus.netherite_backtank": "Netherite Backtank",
   "item.createplus.netherite_backtank_placeable": "Netherite Backtank Placeable",
-  "item.createplus.turtle_backtank": "Turtle Backtank",
-  "item.createplus.turtle_backtank_placeable": "Turtle Backtank Placeable",
-  "module.createplus.goggle_unit": "Module Goggle Unit"
+  "module.createplus.goggle_unit": "Goggle Unit"
 }

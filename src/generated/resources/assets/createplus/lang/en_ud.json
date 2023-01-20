@@ -5,7 +5,7 @@
   "block.createplus.iron_backtank": "ʞuɐʇʞɔɐᗺ uoɹI",
   "block.createplus.leather_backtank": "ʞuɐʇʞɔɐᗺ ɹǝɥʇɐǝꞀ",
   "block.createplus.netherite_backtank": "ʞuɐʇʞɔɐᗺ ǝʇıɹǝɥʇǝN",
-  "block.createplus.turtle_backtank": "ʞuɐʇʞɔɐᗺ ǝןʇɹn⟘",
+  "description.createplus.goggle_unit": "suoıʇdɐɹʇuoɔ ǝʇɐǝɹɔ ʇnoqɐ uoıʇɐɯɹoɟuı pǝɔuɐʌpɐ sʇuɐɹ⅁",
   "item.createplus.chainmail_backtank": "ʞuɐʇʞɔɐᗺ ןıɐɯuıɐɥƆ",
   "item.createplus.chainmail_backtank_placeable": "ǝןqɐǝɔɐןԀ ʞuɐʇʞɔɐᗺ ןıɐɯuıɐɥƆ",
   "item.createplus.diamond_backtank": "ʞuɐʇʞɔɐᗺ puoɯɐıᗡ",
@@ -26,7 +26,5 @@
   "item.createplus.leather_backtank_placeable": "ǝןqɐǝɔɐןԀ ʞuɐʇʞɔɐᗺ ɹǝɥʇɐǝꞀ",
   "item.createplus.netherite_backtank": "ʞuɐʇʞɔɐᗺ ǝʇıɹǝɥʇǝN",
   "item.createplus.netherite_backtank_placeable": "ǝןqɐǝɔɐןԀ ʞuɐʇʞɔɐᗺ ǝʇıɹǝɥʇǝN",
-  "item.createplus.turtle_backtank": "ʞuɐʇʞɔɐᗺ ǝןʇɹn⟘",
-  "item.createplus.turtle_backtank_placeable": "ǝןqɐǝɔɐןԀ ʞuɐʇʞɔɐᗺ ǝןʇɹn⟘",
-  "module.createplus.goggle_unit": "ʇıu∩ ǝןbbo⅁ ǝןnpoW"
+  "module.createplus.goggle_unit": "ʇıu∩ ǝןbbo⅁"
 }

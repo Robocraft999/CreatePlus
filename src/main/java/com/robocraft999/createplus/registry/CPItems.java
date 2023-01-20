@@ -87,6 +87,7 @@ public class CPItems {
 		if (ModCompat.MEKANISM.isLoaded()) {
 			return REGISTRATE
 					.item("module_goggle_unit", p -> MekanismAPI.getModuleHelper().createModuleItem((IModuleDataProvider) CPModules.GOGGLE_MODULE::get, p.tab(CreativeModeTab.TAB_SEARCH)))
+					.lang("Goggle Unit")
 					.register();
 		}
 		return null;

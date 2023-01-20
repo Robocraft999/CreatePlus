@@ -2,6 +2,7 @@ package com.robocraft999.createplus;
 
 import com.robocraft999.createplus.data.RecipeDataProvider;
 import com.robocraft999.createplus.item.goggle.GoggleArmorLayer;
+import com.robocraft999.createplus.lang.CPLang;
 import com.robocraft999.createplus.registry.*;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import mekanism.api.MekanismIMC;
@@ -56,6 +57,8 @@ public class CreatePlus {
 		modEventBus.addListener(this::setup);
 		modEventBus.addListener(this::clientRegistries);
 		modEventBus.addListener(this::gatherData);
+
+		CPLang.addRestOfLang();
 
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> modEventBus.addListener(this::onLayerRegister));
 		
