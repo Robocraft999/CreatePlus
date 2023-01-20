@@ -1,9 +1,12 @@
 package com.robocraft999.createplus.item.crafting;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import com.google.gson.JsonObject;
+import com.robocraft999.createplus.CreatePlus;
 import com.robocraft999.createplus.registry.CPRecipeTypes;
 
 import net.minecraft.world.item.crafting.*;
@@ -34,25 +37,27 @@ public record NBTCraftingRecipe(ShapedRecipe recipe) implements CraftingRecipe {
 	@Nonnull
 	@Override
 	public ItemStack assemble(CraftingContainer inv) {
+		HashMap<Enchantment, Integer> allEnchants = new HashMap<>();
+		ItemStack nbtItemResult = ItemStack.EMPTY;
 		for (int slot = 0; slot < inv.getContainerSize(); slot++) {
 			ItemStack nbtItem = inv.getItem(slot).copy();
-			if(nbtItem.isEmpty())continue;
-
-			ItemStack nbtItemResult = ItemStack.EMPTY;
-			if(nbtItem.isDamageableItem()) nbtItemResult = getResultItem();
-
-			if (nbtItemResult.isEmpty()) continue;
-			Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(nbtItem);
-
-			for (Entry<Enchantment, Integer> entry : map.entrySet()) {
+			if(nbtItem.isEmpty() || (!nbtItem.isEnchantable() && !nbtItem.isEnchanted()))continue;
+			if(nbtItem.isEnchanted()) {
+				allEnchants.putAll(EnchantmentHelper.getEnchantments(nbtItem));
+			}
+			if(nbtItemResult.isEmpty()) {
+				nbtItemResult = new ItemStack(getResultItem().getItem());
+			}
+		}
+		if(!allEnchants.isEmpty() || !nbtItemResult.isEmpty()){
+			for (Entry<Enchantment, Integer> entry : allEnchants.entrySet()) {
 				Enchantment enchantment = entry.getKey();
 				if (!enchantment.isCurse() && EnchantmentHelper.getTagEnchantmentLevel(enchantment, nbtItemResult) == 0) {
 					nbtItemResult.enchant(enchantment, entry.getValue());
 				}
 			}
-			return nbtItemResult;
 		}
-		return ItemStack.EMPTY;
+		return nbtItemResult;
 	}
 
 	@Nonnull
