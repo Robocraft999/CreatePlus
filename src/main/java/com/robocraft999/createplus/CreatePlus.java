@@ -1,14 +1,11 @@
 package com.robocraft999.createplus;
 
 import com.robocraft999.createplus.data.RecipeDataProvider;
-import com.robocraft999.createplus.item.goggle.GoggleArmorLayer;
 import com.robocraft999.createplus.lang.CPLang;
 import com.robocraft999.createplus.registry.*;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import mekanism.api.MekanismIMC;
-import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.InterModComms;
@@ -17,10 +14,8 @@ import net.minecraftforge.fml.config.ModConfig.Type;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -59,8 +54,6 @@ public class CreatePlus {
 		modEventBus.addListener(this::gatherData);
 
 		CPLang.addRestOfLang();
-
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> modEventBus.addListener(this::onLayerRegister));
 		
 		MinecraftForge.EVENT_BUS.register(this);
 	}
@@ -72,10 +65,6 @@ public class CreatePlus {
 	
 	private void clientRegistries(final FMLClientSetupEvent event) {
 		logger.info("Create Plus Client Setup");
-	}
-
-	private void onLayerRegister(final EntityRenderersEvent.RegisterLayerDefinitions event) {
-		event.registerLayerDefinition(GoggleArmorLayer.LAYER, () -> LayerDefinition.create(GoggleArmorLayer.mesh(), 1, 1));
 	}
 
 	private void gatherData(GatherDataEvent event){

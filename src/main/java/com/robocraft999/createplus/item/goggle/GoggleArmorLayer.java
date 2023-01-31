@@ -4,15 +4,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import com.robocraft999.createplus.CPConfig;
 import com.simibubi.create.AllItems;
-import com.simibubi.create.Create;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.CubeDeformation;
-import net.minecraft.client.model.geom.builders.CubeListBuilder;
-import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
@@ -21,7 +15,6 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
@@ -32,8 +25,6 @@ import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GoggleArmorLayer<T extends LivingEntity, M extends EntityModel<T>> extends RenderLayer<T, M> {
-
-    public static final ModelLayerLocation LAYER = new ModelLayerLocation(new ResourceLocation(Create.ID, "goggles"), "goggles");
 
     public GoggleArmorLayer(RenderLayerParent<T, M> renderer) {
         super(renderer);
@@ -89,13 +80,6 @@ public class GoggleArmorLayer<T extends LivingEntity, M extends EntityModel<T>> 
             return;
         GoggleArmorLayer<?, ?> layer = new GoggleArmorLayer<>(livingRenderer);
         livingRenderer.addLayer((GoggleArmorLayer) layer);
-    }
-
-    public static MeshDefinition mesh() {
-        CubeListBuilder builder = new CubeListBuilder();
-        MeshDefinition mesh = HumanoidModel.createMesh(CubeDeformation.NONE, 0);
-        mesh.getRoot().addOrReplaceChild("head", builder, PartPose.ZERO);
-        return mesh;
     }
 
     private static boolean isWearingGoggleInCurio(LivingEntity entity){
