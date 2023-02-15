@@ -3,6 +3,7 @@ package com.robocraft999.createplus.item.goggle;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import com.robocraft999.createplus.CPConfig;
+import com.robocraft999.createplus.registry.ModCompat;
 import com.simibubi.create.AllItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
@@ -84,10 +85,12 @@ public class GoggleArmorLayer<T extends LivingEntity, M extends EntityModel<T>> 
 
     private static boolean isWearingGoggleInCurio(LivingEntity entity){
         AtomicBoolean hasGoggles = new AtomicBoolean(false);
-        entity.getCapability(CuriosCapability.INVENTORY).ifPresent(handler -> {
-            ICurioStacksHandler stacksHandler = handler.getCurios().get("head");
-            if(stacksHandler != null) hasGoggles.set(stacksHandler.getStacks().getStackInSlot(0).getItem() == AllItems.GOGGLES.get());
-        });
+        if(ModCompat.CURIOS.isLoaded()){
+            entity.getCapability(CuriosCapability.INVENTORY).ifPresent(handler -> {
+                ICurioStacksHandler stacksHandler = handler.getCurios().get("head");
+                if(stacksHandler != null) hasGoggles.set(stacksHandler.getStacks().getStackInSlot(0).getItem() == AllItems.GOGGLES.get());
+            });
+        }
         return hasGoggles.get();
     }
 }
