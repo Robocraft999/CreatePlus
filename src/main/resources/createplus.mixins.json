@@ -6,7 +6,8 @@
   "refmap": "createplus.refmap.json",
   "mixins": [
     "MixinCopperBacktankArmorLayer",
-    "MixinDivingHelmetItem"
+    "MixinDivingHelmetItem",
+    "MixinBackTankUtil"
   ],
   "client": [
   ],

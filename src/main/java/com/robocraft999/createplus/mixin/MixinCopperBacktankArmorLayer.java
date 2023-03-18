@@ -1,6 +1,7 @@
 package com.robocraft999.createplus.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.robocraft999.createplus.CreatePlus;
 import com.robocraft999.createplus.item.backtank.BacktankArmor;
 import com.simibubi.create.content.curiosities.armor.BackTankUtil;
 import com.simibubi.create.content.curiosities.armor.CopperArmorItem;
@@ -40,8 +41,10 @@ public class MixinCopperBacktankArmorLayer {
     @ModifyVariable(method = "render", at=@At("STORE"), remap = false)
     protected BlockState onRenderedBlockstate(BlockState renderedState, PoseStack ms, MultiBufferSource buffer, int light, LivingEntity entity){
         if(!BackTankUtil.get(entity).is(Blocks.AIR.asItem())) {
-            String s = BackTankUtil.get(entity).getDescriptionId().split("[.]")[2];
-            return ((BlockEntry<? extends Block>)REGISTRATE.get(s, ForgeRegistries.Keys.BLOCKS)).getDefaultState().setValue(CopperBacktankBlock.HORIZONTAL_FACING, Direction.SOUTH);
+            String s = BackTankUtil.get(entity).getDescriptionId();
+            if(s.split("[.]")[1].equals(CreatePlus.MODID)){
+                return ((BlockEntry<? extends Block>)REGISTRATE.get(s.split("[.]")[2], ForgeRegistries.Keys.BLOCKS)).getDefaultState().setValue(CopperBacktankBlock.HORIZONTAL_FACING, Direction.SOUTH);
+            }
         }
         return renderedState;
     }

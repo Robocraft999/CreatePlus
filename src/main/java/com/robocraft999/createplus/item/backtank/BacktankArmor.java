@@ -2,6 +2,8 @@ package com.robocraft999.createplus.item.backtank;
 
 import static com.robocraft999.createplus.CreatePlus.REGISTRATE;
 
+import com.robocraft999.createplus.registry.ModCompat;
+import com.simibubi.create.AllItems;
 import com.simibubi.create.content.curiosities.armor.BackTankUtil;
 import com.simibubi.create.content.curiosities.armor.CapacityEnchantment;
 import com.simibubi.create.content.curiosities.armor.CopperBacktankItem;
@@ -15,6 +17,10 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
+import top.theillusivec4.curios.api.CuriosCapability;
+import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BacktankArmor extends ArmorItem implements CapacityEnchantment.ICapacityEnchantable {
     private String blockItemId;
@@ -64,8 +70,23 @@ public class BacktankArmor extends ArmorItem implements CapacityEnchantment.ICap
         return Math.round(13.0F * Mth.clamp(BackTankUtil.getAir(stack) / ((float) BackTankUtil.maxAir(stack)), 0, 1));
     }
 
-    public static boolean isWornBy(LivingEntity entity){
-        return entity.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof BacktankArmor;
+    public static boolean isWornBy(LivingEntity entity) {
+        AtomicBoolean isWorn = new AtomicBoolean(entity.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof BacktankArmor);
+        //TODO move to separate function
+        if (ModCompat.CURIOS.isLoaded()) {
+            entity.getCapability(CuriosCapability.INVENTORY).ifPresent(handler -> {
+                ICurioStacksHandler stacksHandler = handler.getCurios().get("body");
+                if (stacksHandler != null) {
+                    for (int i = 0; i < stacksHandler.getSlots(); i++) {
+                        if (AllItems.COPPER_BACKTANK.isIn(stacksHandler.getStacks().getStackInSlot(i))) {
+                            isWorn.set(true);
+                            break;
+                        }
+                    }
+                }
+            });
+        }
+        return isWorn.get();
     }
 
     public static class ArmoredBacktankBlockItem extends BlockItem {
