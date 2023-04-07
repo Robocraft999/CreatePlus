@@ -1,3 +1,7 @@
+# Attention: New Repository
+
+This mod was rewritten. The new repository is [this](https://github.com/Robocraft999/CreateGoggles)
+
 # CreatePlus
 
 [![CurseForge](http://cf.way2muchnoise.eu/full_377835_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/create-plus)
