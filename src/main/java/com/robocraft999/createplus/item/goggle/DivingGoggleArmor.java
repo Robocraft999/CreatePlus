@@ -4,11 +4,11 @@ import com.robocraft999.createplus.lists.ItemList;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.content.curiosities.armor.BackTankUtil;
 
-import net.minecraft.client.Minecraft;
+/*import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Player;*/
 import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.ItemStack;
+/*import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.tags.FluidTags;
@@ -18,7 +18,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.items.IItemHandlerModifiable;
-import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.CuriosApi;*/
 
 //@EventBusSubscriber
 public class DivingGoggleArmor extends GoggleArmor {

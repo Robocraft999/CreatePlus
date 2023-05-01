@@ -37,7 +37,7 @@ public class ItemList {
 	}
 
 	private static RegistryObject<Item> registerGoggleModule(Item.Properties properties){
-		if (new ModLoadedCondition("mekanism").test()) {
+		if (ModCompat.MEKANISM.isLoaded()) {
 			return ITEM_REGISTER.register("module_goggle_unit", () -> MekanismAPI.getModuleHelper().createModuleItem((IModuleDataProvider) ModuleList.GOGGLE_MODULE::get, properties));
 		}
 		return null;

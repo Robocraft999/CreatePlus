@@ -1,0 +1,17 @@
+{
+  "type": "createplus:crafting_nbt",
+  "key": {
+    "g": {
+      "item": "create:goggles"
+    },
+    "h": {
+      "item": "create:diving_helmet"
+    }
+  },
+  "pattern": [
+    "hg"
+  ],
+  "result": {
+    "item": "createplus:goggle_diving_helmet"
+  }
+}

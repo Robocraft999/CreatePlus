@@ -6,6 +6,7 @@ import com.robocraft999.createplus.CreatePlus;
 import com.robocraft999.createplus.lists.ArmorMaterialList;
 
 import com.robocraft999.createplus.lists.ItemList;
+import com.robocraft999.createplus.lists.ModCompat;
 import com.robocraft999.createplus.lists.ModuleList;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.content.contraptions.goggles.GogglesItem;
@@ -81,8 +82,7 @@ public class GoggleArmor extends ArmorItem{
 			}
 		}
 
-		ModLoadedCondition mekloaded = new ModLoadedCondition("mekanism");
-		if(mekloaded.test()) {
+		if(ModCompat.MEKANISM.isLoaded()) {
 			return MekanismAPI.getModuleHelper().isEnabled(headSlot, ModuleList.GOGGLE_MODULE.get());
 		}
 

@@ -1,0 +1,17 @@
+{
+  "type": "createplus:crafting_nbt",
+  "key": {
+    "g": {
+      "item": "create:goggles"
+    },
+    "h": {
+      "item": "minecraft:iron_helmet"
+    }
+  },
+  "pattern": [
+    "hg"
+  ],
+  "result": {
+    "item": "createplus:goggle_iron_helmet"
+  }
+}
